@@ -4,7 +4,7 @@ Terminal based thing and to do management.
 
 ## tl;dr
 
-    brew install fzf ag
+    brew install fzf ripgrep the_silver_searcher bat
     pip3 install -e .
 
 ## test

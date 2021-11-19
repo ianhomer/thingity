@@ -11,6 +11,7 @@ class Environment:
 
     def __init__(self, directory=None, configFile="~/.config/thingity/thingity.ini"):
         self.home = str(Path.home())
+        self.isFish = os.environ.get("SHELL", "").endswith("fish")
         if directory:
             self.directory = directory
             self.confg = {}
@@ -50,8 +51,12 @@ class Environment:
 
     @property
     def hasTmux(self):
-        shutil.which("tmux")
+        return shutil.which("tmux")
 
     @property
     def hasGitSynk(self):
-        shutil.which("git-synk")
+        return shutil.which("git-synk")
+
+    @property
+    def subshellOpen(self):
+        return "(" if self.isFish else "$("
