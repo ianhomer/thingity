@@ -2,8 +2,7 @@
 # Parse a task line. See test cases for examples
 #
 import re
-from thingsdo.taskRenderer import TaskRenderer
-from . import HumanDate, HumanTime
+from . import HumanDate, HumanTime, TaskRenderer
 from datetime import date
 
 NON_CATEGORIES = [
