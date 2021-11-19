@@ -7,6 +7,22 @@ Terminal based thing and to do management.
     brew install fzf ripgrep the_silver_searcher bat
     pip3 install -e .
 
+Create a thing with
+
+    thing
+
+Search things with
+
+    things
+
+Create a todo with
+
+    todo a task
+
+See todos with
+
+    todo
+
 ## test
 
     ptw
