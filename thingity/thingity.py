@@ -14,14 +14,18 @@ def synk(force, justMyNotes=False):
     if not force and not runner.should(shouldSynkFile):
         return
     if force:
-        dir = environment.myNotesDir if justMyNotes else environment.directory
-        subprocess.run(["git", "synk"], cwd=dir)
-        runner.has(shouldSynkFile)
-        time.sleep(1)
+        if environment.hasGitSynk:
+            dir = environment.myNotesDir if justMyNotes else environment.directory
+            subprocess.run(["git", "synk"], cwd=dir)
+            runner.has(shouldSynkFile)
+            time.sleep(1)
     else:
-        subprocess.run(
-            ["tmux", "split-window", "-d", "-l", "1", "-v", "things --synk -m"]
-        )
+        if environment.hasTmux:
+            subprocess.run(
+                ["tmux", "split-window", "-d", "-l", "1", "-v", "things --synk -m"]
+            )
+        elif environment.hasGitSynk:
+            subprocess.run(["things", "--synk", "-m"])
     return force
 
 
