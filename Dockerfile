@@ -3,10 +3,14 @@
 #
 FROM archlinux:latest
 RUN pacman -Syu --noconfirm \
-  git        \
-  python     \
-  python-pip \
-  sudo       \
+  git                 \
+  python              \
+  python-pip          \
+  sudo                \
+  ripgrep             \
+  the_silver_searcher \
+  fzf                 \
+  bat                 \
   vim
 RUN groupadd us && \
     useradd -m -g us me

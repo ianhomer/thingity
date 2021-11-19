@@ -91,13 +91,19 @@ class Fzf:
                 ]
             self.cmd += [
                 "--preview",
-                "cat (echo {} | cut -d: -f2) | cut -c 1-"
+                "cat "
+                + environment.subshellOpen
+                + "echo {} | cut -d: -f2) | cut -c 1-"
                 + str(width - 2)
                 + " | "
                 + "bat --style=header --color=always "
-                + "--file-name (echo {} | cut -d: -f2) "
+                + "--file-name "
+                + environment.subshellOpen
+                + "echo {} | cut -d: -f2) "
                 + "-l md "
-                + "-r (echo {} | cut -d: -f3): ",
+                + "-r "
+                + environment.subshellOpen
+                + "echo {} | cut -d: -f3): ",
             ]
         self.parts = []
         self.defaultCommand = "true"
