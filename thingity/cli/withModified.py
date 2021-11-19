@@ -2,7 +2,7 @@
 
 #
 # Take a stream from things-search where the first two columns are the file and
-# then line number for the match and prepend the line with a string that allows
+# then line number for the match. Then prepend the line with a string that allows
 # sorting ontime modified of file and line number. This prepare content for fzf
 # efficiently.
 #

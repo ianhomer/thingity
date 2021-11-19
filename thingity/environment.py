@@ -1,5 +1,6 @@
 import configparser
 import os
+import shutil
 from pathlib import Path
 
 
@@ -8,7 +9,7 @@ class Environment:
     def withConfig(withConfig=True):
         return Environment() if withConfig else Environment(configFile=None)
 
-    def __init__(self, directory=None, configFile="~/.config/thingsdo/thingsdo.ini"):
+    def __init__(self, directory=None, configFile="~/.config/thingity/thingity.ini"):
         self.home = str(Path.home())
         if directory:
             self.directory = directory
@@ -28,6 +29,10 @@ class Environment:
             self.config = {}
 
     @property
+    def editor(self):
+        return self.config.get("EDITOR", "nvim")
+
+    @property
     def myDo(self):
         return self.config.get("MY_DO", "")
 
@@ -36,5 +41,17 @@ class Environment:
         return self.config.get("MY_NOTES")
 
     @property
+    def streamDir(self):
+        return self.config.get("STREAM_DIR") or "stream"
+
+    @property
     def myNotesDir(self):
         return self.directory + "/" + self.myNotes if self.myNotes else self.directory
+
+    @property
+    def hasTmux(self):
+        shutil.which("tmux")
+
+    @property
+    def hasGitSynk(self):
+        shutil.which("git-synk")

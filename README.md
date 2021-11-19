@@ -10,3 +10,11 @@ Terminal based thing and to do management.
 ## test
 
     ptw
+
+## exploratative tests
+
+Start up thingity in a container
+
+    ./isolation-test.sh
+
+

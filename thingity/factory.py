@@ -11,5 +11,5 @@ class Factory:
 
     def getPath(self, name):
         return (
-            f"{self.environment.myNotesDir}/stream/{name}.md"
+            f"{self.environment.myNotesDir}/{self.environment.streamDir}/{name}.md"
         )

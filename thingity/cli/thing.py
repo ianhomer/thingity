@@ -6,8 +6,8 @@ import subprocess
 import re
 from datetime import datetime
 from pathlib import Path
-from thingsdo.factory import Factory
-from thingsdo.environment import Environment
+from .. import Factory
+from .. import Environment
 from .. import thingity
 
 
@@ -57,6 +57,6 @@ def edit(environment: Environment, args):
 
     # Edit a thing.
     subprocess.call(
-        ["nvim", filename, "+:$"],
+        [environment.editor, filename, "+:$"],
         cwd=environment.directory,
     )
