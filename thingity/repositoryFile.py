@@ -42,9 +42,7 @@ class RepositoryFile:
         if not self._root:
             self._root = gitRoot(directory, cmd)
 
-        print(self._root)
         self._path = fullPath[len(self._root) + 1 :]
-        print(self._path)
 
     @property
     def root(self):
