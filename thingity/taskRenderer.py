@@ -21,7 +21,8 @@ class TaskRenderer:
             ]
         if task.timeInclude:
             parts += [
-                f"{self.palette.color('time', modifier)}{task.time.display} {self.clear}"
+                self.palette.color('time', modifier)
+                + f"{task.time.display} {self.clear}"
             ]
         if task.end:
             parts += [f"to {self.palette.color('end')}{task.end.display}{self.clear}"]
