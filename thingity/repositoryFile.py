@@ -2,7 +2,7 @@ import subprocess
 import os
 
 
-class GitFile:
+class RepositoryFile:
     def __init__(self, base: str, path="", cmd=["git", "rev-parse", "--show-toplevel"]):
         fullPath = base + "/" + path
         directory = os.path.dirname(base + "/" + path)

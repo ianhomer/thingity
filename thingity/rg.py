@@ -24,6 +24,7 @@ class Rg(Search):
             + self.globParts
             + [
                 "--no-heading",
+                "--follow",
                 "--color",
                 "never",
                 "--pcre2",
