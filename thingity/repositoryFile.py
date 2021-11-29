@@ -5,11 +5,9 @@ from pathlib import Path
 
 def upFind(directory):
     cwd = Path(".").resolve()
-    print(cwd)
     candidate = Path(directory).resolve()
     pathRoot = candidate.root
     while len(candidate.name) > 1 and pathRoot != candidate.name:
-        print(candidate)
         if candidate.parent.name == "things":
             if candidate.is_relative_to(cwd):
                 return str(candidate.relative_to(cwd))
