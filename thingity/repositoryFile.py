@@ -2,17 +2,15 @@ import subprocess
 import os
 from pathlib import Path
 
+THINGS = "things"
+
 
 def upFind(directory):
     path = Path(directory)
-    if path.parent.name == "things":
+    if path.parent.name == THINGS:
         return directory
     return next(
-        (
-            str(parent)
-            for parent in path.parents
-            if parent.parent.name == "things"
-        ),
+        (str(parent) for parent in path.parents if parent.parent.name == THINGS),
         None,
     )
 
@@ -29,6 +27,7 @@ def gitRoot(directory, cmd):
         .communicate()[0]
         .rstrip()
     )
+
 
 class RepositoryFile:
     def __init__(self, base: str, path="", cmd=["git", "rev-parse", "--show-toplevel"]):
