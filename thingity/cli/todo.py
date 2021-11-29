@@ -87,6 +87,7 @@ def context(environment: Environment):
             "--nocolor",
             "--nobreak",
             "--nofilename",
+            "--follow",
             "\\- \\[ \\] [A-Z]{3}",
             environment.directory,
         ],
@@ -121,7 +122,7 @@ def search(environment: Environment, args):
 
     ag = Ag(environment, args.justarchive, args.witharchive or args.all)
     agParts = ag.parts(
-        pattern, ["--noheading", "--nonumbers", "--nocolor", "--nobreak"]
+        pattern, ["--noheading", "--nonumbers", "--nocolor", "--nobreak", "--follow"]
     )
     result = subprocess.run(agParts, stdout=PIPE, text=True)
 
