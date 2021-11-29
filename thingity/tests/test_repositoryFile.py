@@ -22,8 +22,9 @@ def git_root_is(context, gitRoot):
 
 @when(parsers.parse("I have the file {path}"))
 def I_have_the_file(context, path):
-    context["file"] = RepositoryFile(
-        context["directory"],
-        path,
-        cmd=["echo", context["directory"] + "/" + context["gitRoot"]],
-    )
+    kwargs = {}
+
+    if "gitRoot" in context:
+        kwargs["cmd"] = ["echo", context["directory"] + "/" + context["gitRoot"]]
+
+    context["file"] = RepositoryFile(context["directory"], path, **kwargs)
