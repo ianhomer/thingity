@@ -4,7 +4,7 @@ from .environment import Environment
 from .ag import Ag
 from .contextFilter import ContextFilter
 from .factory import Factory
-from .gitFile import GitFile
+from .repositoryFile import RepositoryFile
 from .humanDate import HumanDate
 from .humanTime import HumanTime
 from .search import Search

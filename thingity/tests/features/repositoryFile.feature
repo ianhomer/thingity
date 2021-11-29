@@ -1,5 +1,5 @@
-Feature: Git File
-    Get git file from file
+Feature: Repository File
+    Get repository file from file
 
     Scenario: File in git root
         Given I am in directory /tmp/foo

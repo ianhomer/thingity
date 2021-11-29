@@ -1,8 +1,8 @@
 import pytest
 from pytest_bdd import scenarios, given, when, parsers
-from .. import GitFile
+from .. import RepositoryFile
 
-scenarios("features/gitFile.feature")
+scenarios("features/repositoryFile.feature")
 
 
 @pytest.fixture
@@ -22,7 +22,7 @@ def git_root_is(context, gitRoot):
 
 @when(parsers.parse("I have the file {path}"))
 def I_have_the_file(context, path):
-    context["file"] = GitFile(
+    context["file"] = RepositoryFile(
         context["directory"],
         path,
         cmd=["echo", context["directory"] + "/" + context["gitRoot"]],
