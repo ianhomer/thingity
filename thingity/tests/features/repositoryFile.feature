@@ -8,7 +8,13 @@ Feature: Repository File
         Then the file path is file.txt
         And the file root is /tmp/foo/bar
 
-    Scenario: File is not in git root
+    Scenario: Root File is not in git root
+        Given I am in directory thingity/tests/data/things
+        When I have the file foo/thing.md
+        Then the file path is thing.md
+        And the file root is thingity/tests/data/things/foo
+
+  Scenario: File is not in git root
         Given I am in directory thingity/tests/data/things
         When I have the file foo/bar/thing.md
         Then the file path is bar/thing.md
