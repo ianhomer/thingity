@@ -172,8 +172,14 @@ def search(environment: Environment, args):
     encoding = sys.getdefaultencoding()
     if fzfIn:
         if args.today:
+            factory = Factory(environment)
+            todayLog = (
+                factory.getTodayLog(args.repository)
+                if args.repository
+                else factory.getTodayLog()
+            )
             fzfIn.write(
-                f"\t(today)\t{Factory(environment).getTodayLog()}\n".encode(encoding)
+                f"\t(today)\t{todayLog}\n".encode(encoding)
             )
         for do in dos:
             fzfIn.write(do.encode(encoding))
@@ -194,7 +200,8 @@ def search(environment: Environment, args):
             match = re.search("\\(today\\)\t(.*)$", output)
             if match:
                 file = match.group(1)
-
+                if not os.path.isfile(file):
+                    Path(file).touch()
         if file:
             subprocess.call(["nvim", file], cwd=environment.directory)
             return True
