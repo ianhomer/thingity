@@ -29,6 +29,12 @@ NON_CATEGORIES = [
     "TOM",
 ]
 
+
+def repositoryFromFile(file):
+    match = re.search(".*things/([^/]*)/.*", file)
+    if match:
+        return match.group(1)
+
 #
 # When natural is true then line interpretted as entered by human.
 #
@@ -99,11 +105,7 @@ class Task:
         self.toDate = None
         if match:
             self.file = match.group(1)
-            fileMatch = re.search(".*things/([^/]*)/.*", self.file)
-            if fileMatch:
-                self.repository = fileMatch.group(1)
-            else:
-                self.repository = None
+            self.repository = repositoryFromFile(self.file)
             self.context = match.group(2) or self.defaultContext
             self.dateIn = match.group(3) or None
             if self.dateIn is None:

@@ -48,6 +48,7 @@ def run():
     parser.add_argument("--noconfig", help="ignore config files", action="store_true")
     parser.add_argument("--justarchive", action="store_true")
     parser.add_argument("--witharchive", action="store_true")
+    parser.add_argument("--showrepository", action="store_true")
 
     args = parser.parse_args()
 
@@ -150,7 +151,7 @@ def search(environment: Environment, args):
             "-d",
             "\t",
             "--with-nth",
-            "2,3",
+            ("2,3,4" if args.showrepository else "2,3"),
             "--tabstop",
             "4",
             "--layout",
@@ -182,9 +183,9 @@ def search(environment: Environment, args):
     stdout = fzf.stdout
     if stdout:
         output = stdout.read().decode(encoding)
-        match = re.search("^([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)$", output)
+        match = re.search("^([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)$", output)
         if match:
-            file = match.group(4)
+            file = match.group(5)
             subprocess.call(["nvim", file], cwd=environment.directory)
             return True
         else:
