@@ -49,6 +49,7 @@ def run():
     parser.add_argument("--justarchive", action="store_true")
     parser.add_argument("--witharchive", action="store_true")
     parser.add_argument("--showrepository", action="store_true")
+    parser.add_argument("--repository")
 
     args = parser.parse_args()
 
@@ -133,7 +134,9 @@ def search(environment: Environment, args):
     renderer = TaskRenderer(theme=None if args.stream else "do")
     for line in lines:
         task = Task(line, nearDays=days)
-        if task.context not in excludes:
+        if task.context not in excludes and (
+            not args.repository or args.repository == task.repository
+        ):
             dos.append(renderer.render(task) + ("" if args.stream else "\n"))
     dos.sort()
     # Simply stream the output
