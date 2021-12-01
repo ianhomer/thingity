@@ -49,7 +49,7 @@ def run():
     parser.add_argument("--justarchive", action="store_true")
     parser.add_argument("--witharchive", action="store_true")
     parser.add_argument("--showrepository", action="store_true")
-    parser.add_argument("--repository")
+    parser.add_argument("-r", "--repository")
 
     args = parser.parse_args()
 
@@ -69,7 +69,7 @@ def run():
                 words.append(word)
         # do to add
         do = " ".join(words)
-        add(environment, do)
+        add(environment, args.repository, do)
         return
 
     if args.context:
@@ -213,12 +213,12 @@ def search(environment: Environment, args):
 
 
 # Add a do
-def add(environment, do):
+def add(environment, repository, do):
     # MEM (Memento https://www.imdb.com/title/tt0209144/)
     task = Task(f"{do}", defaultContext="MEM", natural=True)
 
     now = datetime.now()
-    todayLog = Factory(environment).getTodayLog(now)
+    todayLog = Factory(environment).getTodayLog(repository, now)
     if not os.path.isfile(todayLog):
         Path(todayLog).touch()
     with open(todayLog, "r+") as file:
