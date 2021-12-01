@@ -187,8 +187,15 @@ def search(environment: Environment, args):
     if stdout:
         output = stdout.read().decode(encoding)
         match = re.search("^([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)$", output)
+        file = None
         if match:
             file = match.group(5)
+        else:
+            match = re.search("\\(today\\)\t(.*)$", output)
+            if match:
+                file = match.group(1)
+
+        if file:
             subprocess.call(["nvim", file], cwd=environment.directory)
             return True
         else:
