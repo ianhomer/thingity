@@ -11,29 +11,33 @@ Feature: Task
         And the task rank is 4000
 
     Scenario: Task in file
-        Given I am in the file my.md
+        Given I am in the file things/foo/bar/my.md
         And I have the task - [ ] ABC something
-        Then the task file is my.md
+        Then the task file is things/foo/bar/my.md
+        And the task repository is foo
         And the task context is ABC
         And the task subject is something
 
     Scenario: Next task
-        Given I have the task * something next
+        Given I am in the file my.md
+        And I have the task * something next
         Then the task next is True
-        Then the task mission is False
+        And the task file is my.md
+        And the task repository is not set
+        And the task mission is False
         And the task subject is something next
         And the task rank is 3000
 
     Scenario: Garage task
         Given I have the task - something in garage
         Then the task garage is True
-        Then the task mission is False
+        And the task mission is False
         And the task subject is something in garage
 
     Scenario: Mission task
         Given I have the task ~ something in mission
         Then the task garage is False
-        Then the task mission is True
+        And the task mission is True
         And the task subject is something in mission
 
     Scenario: Backlog task

@@ -99,6 +99,11 @@ class Task:
         self.toDate = None
         if match:
             self.file = match.group(1)
+            fileMatch = re.search(".*things/([^/]*)/.*", self.file)
+            if fileMatch:
+                self.repository = fileMatch.group(1)
+            else:
+                self.repository = None
             self.context = match.group(2) or self.defaultContext
             self.dateIn = match.group(3) or None
             if self.dateIn is None:
