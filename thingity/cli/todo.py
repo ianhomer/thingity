@@ -46,12 +46,21 @@ def run():
 
     # General settings
     parser.add_argument("--noconfig", help="ignore config files", action="store_true")
+    parser.add_argument("--filter", help="filter")
+    parser.add_argument("--test", help="test mode")
+    parser.add_argument("--noedit", help="don't edit file")
+    parser.add_argument("--getfilename", help="just return filename instead of editing")
     parser.add_argument("--justarchive", action="store_true")
     parser.add_argument("--witharchive", action="store_true")
     parser.add_argument("--showrepository", action="store_true")
     parser.add_argument("-r", "--repository")
 
     args = parser.parse_args()
+
+    if args.test:
+        args.filter = args.test
+        args.noconfig = True
+        args.noedit = True
 
     environment = Environment.withConfig(not args.noconfig)
 
@@ -107,6 +116,7 @@ def context(environment: Environment):
 
 
 def search(environment: Environment, args):
+
     contextFilter = ContextFilter(environment.myDo)
     excludes = [] if args.include or args.do else contextFilter.excludes()
 
@@ -144,26 +154,29 @@ def search(environment: Environment, args):
         for do in dos:
             print(do[5:])
         return False
+    fzfArgs = [
+        "fzf",
+        "--ansi",
+        "--height",
+        "100%",
+        "+m",
+        "-d",
+        "\t",
+        "--with-nth",
+        ("2,3,4" if args.showrepository else "2,3"),
+        "--tabstop",
+        "4",
+        "--layout",
+        "reverse",
+        "--tiebreak",
+        "begin",
+        "--bind=ctrl-s:abort,ctrl-w:abort,ctrl-space:abort,"
+        + "ctrl-o:execute(tmux split-window -v 'nvim {4}')",
+    ]
+    if args.filter:
+        fzfArgs += ["--filter", args.filter]
     fzf = subprocess.Popen(
-        [
-            "fzf",
-            "--ansi",
-            "--height",
-            "100%",
-            "+m",
-            "-d",
-            "\t",
-            "--with-nth",
-            ("2,3,4" if args.showrepository else "2,3"),
-            "--tabstop",
-            "4",
-            "--layout",
-            "reverse",
-            "--tiebreak",
-            "begin",
-            "--bind=ctrl-s:abort,ctrl-w:abort,ctrl-space:abort,"
-            + "ctrl-o:execute(tmux split-window -v 'nvim {4}')",
-        ],
+        fzfArgs,
         stdin=PIPE,
         stdout=PIPE,
         stderr=None,
@@ -178,9 +191,7 @@ def search(environment: Environment, args):
                 if args.repository
                 else factory.getTodayLog()
             )
-            fzfIn.write(
-                f"\t(today)\t{todayLog}\n".encode(encoding)
-            )
+            fzfIn.write(f"\t(today)\t{todayLog}\n".encode(encoding))
         for do in dos:
             fzfIn.write(do.encode(encoding))
 
@@ -203,7 +214,11 @@ def search(environment: Environment, args):
                 if not os.path.isfile(file):
                     Path(file).touch()
         if file:
-            subprocess.call(["nvim", file], cwd=environment.directory)
+            if args.noedit:
+                print(file)
+                return False
+            else:
+                subprocess.call(["nvim", file], cwd=environment.directory)
             return True
         else:
             print(output)
