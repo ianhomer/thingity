@@ -49,6 +49,9 @@ class Environment:
     def myNotesDir(self):
         return self.directory + "/" + self.myNotes if self.myNotes else self.directory
 
+    def getNotesDir(self, repository=None):
+        return self.directory + "/" + repository
+
     @property
     def hasTmux(self):
         return shutil.which("tmux")
