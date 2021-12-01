@@ -1,0 +1,14 @@
+{
+  "name": "thingity-test",
+  "version": "1.0.0",
+  "description": "e2e thingity tests",
+  "scripts": {
+    "test": "bats -T fixtures"
+  },
+  "devDependencies": {
+    "bats": "^1.4.1",
+    "bats-assert": "^2.0.0",
+    "bats-support": "^0.3.0"
+  },
+  "license": "ISC"
+}
