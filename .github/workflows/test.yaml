@@ -27,12 +27,33 @@ jobs:
       - name: python tests
         run: |
           pytest
+
+  test-e2e:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: [3.9]
+    
+    steps:
+      - uses: actions/checkout@v1
+      - name: set up python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: install python dependencies
+        run: |
+          python -m pip install --upgrade pip
       - uses: pnpm/action-setup@v2.0.1
         with:
           version: 6.23.5
+      - name: install thingity
+        run: pip install -e .
       - name: e2e
         working-directory: test
         run: |
           sudo apt-get install -y fzf
           pnpm i
           pnpm test
+
+
