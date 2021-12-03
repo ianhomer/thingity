@@ -31,7 +31,7 @@ jobs:
         with:
           version: 6.23.5
       - name: e2e
-        run:
+        run: |
           sudo apt-get install -y fzf
           pnpm i
           pnpm test
