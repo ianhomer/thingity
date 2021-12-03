@@ -156,6 +156,7 @@ class Task:
             self.date = None
             self.time = None
             self.subject = self.line
+            self.repository = None
 
     def __str__(self):
         return self.code
