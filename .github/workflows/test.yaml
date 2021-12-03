@@ -3,7 +3,7 @@ name: test
 on: [push, workflow_dispatch]
 
 jobs:
-  test-py:
+  test-unit:
     runs-on: ubuntu-latest
 
     strategy:
@@ -34,7 +34,7 @@ jobs:
     strategy:
       matrix:
         python-version: [3.9]
-    
+
     steps:
       - uses: actions/checkout@v1
       - name: set up python
@@ -52,8 +52,6 @@ jobs:
       - name: e2e
         working-directory: test
         run: |
-          sudo apt-get install -y fzf
+          sudo apt-get install -y fzf silversearcher-ag
           pnpm i
           pnpm test
-
-
