@@ -65,8 +65,8 @@ def run():
 
     environment = Environment.withConfig(not args.noconfig)
 
-    if thingity.synk(False):
-       return
+    if (not args.filter) and thingity.synk(False):
+        return
 
     if args.do and len(args.do) > 1:
         words = []

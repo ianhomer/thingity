@@ -39,7 +39,7 @@ def run():
 
     environment = Environment.withConfig(not args.noconfig)
 
-    if thingity.synk(args.synk, args.my):
+    if (not args.filter) and thingity.synk(args.synk, args.my):
         return
 
     if args.open:
