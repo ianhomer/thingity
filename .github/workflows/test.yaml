@@ -49,9 +49,10 @@ jobs:
           version: 6.23.5
       - name: install thingity
         run: pip install -e .
-      - name: e2e
+      - name: install dependencies
+        run: sudo apt-get install -y fzf silversearcher-ag ripgrep
+      - name: pnpm install
         working-directory: test
-        run: |
-          sudo apt-get install -y fzf silversearcher-ag ripgrep
-          pnpm i
-          pnpm test
+        run: pnpm i
+      # - name: test
+      #   pnpm test
