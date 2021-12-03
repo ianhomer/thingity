@@ -56,7 +56,7 @@ class Task:
         self.end = None
         self.line = line
         self.natural = natural
-        self.timeInclude = True
+        self.timeInclude = False
         self.today = today
         self._parse()
 
