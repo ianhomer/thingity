@@ -76,7 +76,6 @@ class Fzf:
     ):
         self.environment = environment
         self.noedit = noedit
-        terminal = shutil.get_terminal_size((80, 24))
         self.cmd = [
             "fzf",
             "--multi",
@@ -93,37 +92,40 @@ class Fzf:
         ]
         if filter:
             self.cmd += ["--filter", filter]
-
-        if terminal.columns > 60 or terminal.lines > 10:
-            if terminal.columns > 100:
-                width = 120 if terminal.columns > 150 else int(terminal.columns * 0.6)
+        else:
+            terminal = shutil.get_terminal_size((80, 24))
+            if terminal.columns > 60 or terminal.lines > 10:
+                if terminal.columns > 100:
+                    width = (
+                        120 if terminal.columns > 150 else int(terminal.columns * 0.6)
+                    )
+                    self.cmd += [
+                        "--preview-window",
+                        f"right,{width}",
+                    ]
+                else:
+                    width = terminal.columns
+                    height = "5" if terminal.lines < 20 else "50%"
+                    self.cmd += [
+                        "--preview-window",
+                        f"bottom,{height}",
+                    ]
                 self.cmd += [
-                    "--preview-window",
-                    f"right,{width}",
+                    "--preview",
+                    "cat "
+                    + environment.subshellOpen
+                    + "echo {} | cut -d: -f2) | cut -c 1-"
+                    + str(width - 2)
+                    + " | "
+                    + "bat --style=header --color=always "
+                    + "--file-name "
+                    + environment.subshellOpen
+                    + "echo {} | cut -d: -f2) "
+                    + "-l md "
+                    + "-r "
+                    + environment.subshellOpen
+                    + "echo {} | cut -d: -f3): ",
                 ]
-            else:
-                width = terminal.columns
-                height = "5" if terminal.lines < 20 else "50%"
-                self.cmd += [
-                    "--preview-window",
-                    f"bottom,{height}",
-                ]
-            self.cmd += [
-                "--preview",
-                "cat "
-                + environment.subshellOpen
-                + "echo {} | cut -d: -f2) | cut -c 1-"
-                + str(width - 2)
-                + " | "
-                + "bat --style=header --color=always "
-                + "--file-name "
-                + environment.subshellOpen
-                + "echo {} | cut -d: -f2) "
-                + "-l md "
-                + "-r "
-                + environment.subshellOpen
-                + "echo {} | cut -d: -f3): ",
-            ]
         self.parts = []
         self.defaultCommand = "true"
         self.filenameMatcher = "^[^:]*:([^:]*)"
