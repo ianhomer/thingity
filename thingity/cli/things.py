@@ -23,10 +23,19 @@ def run():
 
     # General settings
     parser.add_argument("--noconfig", help="ignore config files", action="store_true")
+    parser.add_argument("--filter", help="filter")
+    parser.add_argument("--test", help="test mode")
+    parser.add_argument("--noedit", help="don't edit file", action="store_true")
+
     parser.add_argument("--justarchive", action="store_true")
     parser.add_argument("--witharchive", action="store_true")
 
     args = parser.parse_args()
+
+    if args.test:
+        args.filter = args.test
+        args.noconfig = True
+        args.noedit = True
 
     environment = Environment.withConfig(not args.noconfig)
 
@@ -58,8 +67,15 @@ class Fzf:
     # 2) filename
     # 3) line number in file for preview
     # 4) display string
-    def __init__(self, environment: Environment, thingsSearchArgs: str = None):
+    def __init__(
+        self,
+        environment: Environment,
+        thingsSearchArgs: str = None,
+        filter: str = None,
+        noedit: bool = False,
+    ):
         self.environment = environment
+        self.noedit = noedit
         terminal = shutil.get_terminal_size((80, 24))
         self.cmd = [
             "fzf",
@@ -75,6 +91,9 @@ class Fzf:
             "--color",
             "dark",
         ]
+        if filter:
+            self.cmd += ["--filter", filter]
+
         if terminal.columns > 60 or terminal.lines > 10:
             if terminal.columns > 100:
                 width = 120 if terminal.columns > 150 else int(terminal.columns * 0.6)
@@ -141,6 +160,7 @@ class Fzf:
             cwd=self.environment.directory,
         )
         lines = process.stdout.splitlines()
+        print(lines)
         selected = []
         for line in lines:
             match = re.search(self.filenameMatcher, line)
@@ -149,13 +169,19 @@ class Fzf:
 
         if len(selected) > 0:
             repositoryFile = RepositoryFile(self.environment.directory, selected[0])
-            subprocess.call(["nvim"] + [repositoryFile.path], cwd=repositoryFile.root)
+            if self.noedit:
+                print(repositoryFile.path)
+                return False
+            else:
+                subprocess.call(
+                    ["nvim"] + [repositoryFile.path], cwd=repositoryFile.root
+                )
             return True
         return False
 
 
 def recent(environment: Environment, args):
-    fzf = Fzf(environment)
+    fzf = Fzf(environment, filter=args.filter)
     period = args.thing[0] if args.thing else "1week"
     fzf.defaultCommand = (
         f"fd --changed-within {period} md " + "--exec stat -f '%m:%N:1:%N' {} | sort -r"
@@ -170,7 +196,7 @@ def search(environment: Environment, args):
         + ("--justarchive " if args.justarchive else "")
         + ("--noconfig " if args.noconfig else "")
     )
-    fzf = Fzf(environment, thingsSearchArgs)
+    fzf = Fzf(environment, thingsSearchArgs, filter=args.filter, noedit=args.noedit)
 
     if args.name:
         searchPrefix = f"things-search {thingsSearchArgs}-n {args.name}"

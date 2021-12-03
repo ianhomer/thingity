@@ -48,7 +48,8 @@ def run():
     parser.add_argument("--noconfig", help="ignore config files", action="store_true")
     parser.add_argument("--filter", help="filter")
     parser.add_argument("--test", help="test mode")
-    parser.add_argument("--noedit", help="don't edit file")
+    parser.add_argument("--noedit", help="don't edit file", action="store_true")
+
     parser.add_argument("--getfilename", help="just return filename instead of editing")
     parser.add_argument("--justarchive", action="store_true")
     parser.add_argument("--witharchive", action="store_true")
@@ -65,7 +66,7 @@ def run():
     environment = Environment.withConfig(not args.noconfig)
 
     if thingity.synk(False):
-        return
+       return
 
     if args.do and len(args.do) > 1:
         words = []
