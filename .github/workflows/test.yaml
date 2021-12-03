@@ -52,6 +52,6 @@ jobs:
       - name: e2e
         working-directory: test
         run: |
-          sudo apt-get install -y fzf silversearcher-ag
+          sudo apt-get install -y fzf silversearcher-ag ripgrep
           pnpm i
           pnpm test
