@@ -162,7 +162,6 @@ class Fzf:
             cwd=self.environment.directory,
         )
         lines = process.stdout.splitlines()
-        print(lines)
         selected = []
         for line in lines:
             match = re.search(self.filenameMatcher, line)
