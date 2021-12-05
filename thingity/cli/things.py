@@ -28,6 +28,7 @@ def run():
     parser.add_argument("--noedit", help="don't edit file", action="store_true")
 
     parser.add_argument("--info", action="store_true")
+    parser.add_argument("--dry", action="store_true")
     parser.add_argument("--justarchive", action="store_true")
     parser.add_argument("--witharchive", action="store_true")
 
@@ -78,9 +79,11 @@ class Fzf:
         thingsSearchArgs: str = None,
         filter: str = None,
         noedit: bool = False,
+        dry: bool = False,
     ):
         self.environment = environment
         self.noedit = noedit
+        self.dry = dry
         self.cmd = [
             "fzf",
             "--multi",
@@ -88,15 +91,16 @@ class Fzf:
             "100%",
             "--ansi",
             "--no-sort",
-            "-d",
-            ":",
-            "--with-nth",
-            "4..",
             "--color",
             "dark",
         ]
+        if not self.dry:
+            self.cmd += ["-d", ":", "--with-nth", "4.."]
         if filter:
-            self.cmd += ["--filter", filter]
+            if self.dry:
+                self.cmd += ["--filter", "."]
+            else:
+                self.cmd += ["--filter", filter]
         else:
             terminal = shutil.get_terminal_size((80, 24))
             if terminal.columns > 60 or terminal.lines > 10:
@@ -158,6 +162,8 @@ class Fzf:
         cmd = self.cmd + self.parts
         if len(self.binds) > 0:
             cmd += ["--bind", ",".join(self.binds)]
+        if self.dry:
+            print(cmd)
         process = subprocess.run(
             cmd,
             stdout=PIPE,
@@ -166,6 +172,9 @@ class Fzf:
             env={**os.environ, "FZF_DEFAULT_COMMAND": self.defaultCommand},
             cwd=self.environment.directory,
         )
+        if self.dry:
+            print(process.stdout)
+            return
         lines = process.stdout.splitlines()
         selected = []
         for line in lines:
@@ -201,8 +210,15 @@ def search(environment: Environment, args):
         + ("--witharchive " if args.witharchive else "")
         + ("--justarchive " if args.justarchive else "")
         + ("--noconfig " if args.noconfig else "")
+        + ("--dry " if args.dry else "")
     )
-    fzf = Fzf(environment, thingsSearchArgs, filter=args.filter, noedit=args.noedit)
+    fzf = Fzf(
+        environment,
+        thingsSearchArgs,
+        filter=args.filter,
+        noedit=args.noedit,
+        dry=args.dry,
+    )
 
     if args.name:
         searchPrefix = f"things-search {thingsSearchArgs}-n {args.name}"
