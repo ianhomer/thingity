@@ -9,6 +9,7 @@ class Rg(Search):
         super(Rg, self).__init__(environment)
         self.match = match
         self.globParts = self.createGlobParts(justArchive, withArchive)
+        self.withPcre2 = False
 
     def createGlobParts(self, justArchive, withArchive):
         if justArchive:
@@ -27,10 +28,11 @@ class Rg(Search):
                 "--follow",
                 "--color",
                 "never",
-                "--pcre2",
                 "-n",
             ]
         )
+        if self.withPcre2:
+            parts += ["--pcre2"]
         if self.maxPerFile > 0:
             parts.extend(["-m", str(self.maxPerFile)])
         parts.append(self.matchPrefix + (self.match or ""))
