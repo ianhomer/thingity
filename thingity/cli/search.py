@@ -34,6 +34,10 @@ def search(args):
         search = Rg(environment, match, args.justarchive, args.witharchive)
         search.maxPerFile = 1
         search.postFilter = "s/^/0:/"
+    elif args.name == "test":
+        search = Rg(environment, match, False, True)
+        search.maxPerFile = 1
+        search.postFilter = None
     elif args.name == "sort-modified":
         search = Rg(environment, match, args.justarchive, args.witharchive)
         search.withModifiedKey = True
