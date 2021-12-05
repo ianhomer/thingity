@@ -54,6 +54,6 @@ jobs:
       - name: pnpm install
         working-directory: test
         run: pnpm i
-      - name: test
-        working-directory: test
-        run: pnpm test
+      # - name: test
+      #   working-directory: test
+      #   run: pnpm test
