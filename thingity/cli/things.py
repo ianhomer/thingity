@@ -84,6 +84,7 @@ class Fzf:
         self.environment = environment
         self.noedit = noedit
         self.dry = dry
+        self.filter = filter
         self.cmd = [
             "fzf",
             "--multi",
@@ -176,6 +177,9 @@ class Fzf:
             print(process.stdout)
             return
         lines = process.stdout.splitlines()
+        if self.filter:
+            print(lines)
+            return False
         selected = []
         for line in lines:
             match = re.search(self.filenameMatcher, line)
