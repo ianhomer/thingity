@@ -46,12 +46,14 @@ def search(args):
     elif args.name == "bookmarks":
         search = Rg(environment)
         search.withModifiedKey = True
+        search.withPcre2 = True
         matchPattern = "(?=.*" + match + ")" if match else ""
         matchPattern += "(?!.*#reject)"
         search.matchPrefix = f"^{matchPattern}(?=\\[[0-9A-Za-z\\s\\.\\-]+\\]:).*"
     elif args.name == "links":
         search = Rg(environment)
         search.withModifiedKey = True
+        search.withPcre2 = True
         search.matchPrefix = "^.*<[0-9A-Za-z\\s\\:\\/\\.\\-]+>.*"
     elif args.name == "tags":
         search = Rg(environment, "", args.justarchive, args.witharchive)
