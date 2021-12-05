@@ -27,6 +27,7 @@ def run():
     parser.add_argument("--test", help="test mode")
     parser.add_argument("--noedit", help="don't edit file", action="store_true")
 
+    parser.add_argument("--info", action="store_true")
     parser.add_argument("--justarchive", action="store_true")
     parser.add_argument("--witharchive", action="store_true")
 
@@ -38,6 +39,10 @@ def run():
         args.noedit = True
 
     environment = Environment.withConfig(not args.noconfig)
+
+    if args.info:
+        print(f"Things directory : {environment.directory}")
+        return
 
     if (not args.filter) and thingity.synk(args.synk, args.my):
         return
