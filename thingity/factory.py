@@ -9,7 +9,7 @@ class Factory:
         today = now.strftime("%m%d")
         return self.getPath(today, repository)
 
-    def getPath(self, name, repository):
+    def getPath(self, name, repository=None):
         notesDir = (
             self.environment.getNotesDir(repository)
             if repository
