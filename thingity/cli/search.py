@@ -34,6 +34,10 @@ def search(args):
         search = Rg(environment, match, args.justarchive, args.witharchive)
         search.maxPerFile = 1
         search.postFilter = "s/^/0:/"
+    elif args.name == "test":
+        search = Rg(environment, match, False, True)
+        search.maxPerFile = 1
+        search.postFilter = None
     elif args.name == "sort-modified":
         search = Rg(environment, match, args.justarchive, args.witharchive)
         search.withModifiedKey = True
@@ -46,12 +50,14 @@ def search(args):
     elif args.name == "bookmarks":
         search = Rg(environment)
         search.withModifiedKey = True
+        search.withPcre2 = True
         matchPattern = "(?=.*" + match + ")" if match else ""
         matchPattern += "(?!.*#reject)"
         search.matchPrefix = f"^{matchPattern}(?=\\[[0-9A-Za-z\\s\\.\\-]+\\]:).*"
     elif args.name == "links":
         search = Rg(environment)
         search.withModifiedKey = True
+        search.withPcre2 = True
         search.matchPrefix = "^.*<[0-9A-Za-z\\s\\:\\/\\.\\-]+>.*"
     elif args.name == "tags":
         search = Rg(environment, "", args.justarchive, args.witharchive)
