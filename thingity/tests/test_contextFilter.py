@@ -25,6 +25,11 @@ def filter_should_have_children(context, child, value):
     assert context["filter"].children(child) == value.split(",")
 
 
+@then(parsers.parse("the filter for {child} has repository {value}"))
+def filter_should_have_children(context, child, value):
+    assert context["filter"].repository(child) == value
+
+
 @then(parsers.parse("the filter for {child} has family {value}"))
 def filter_should_have_family(context, child, value):
     assert context["filter"].family(child) == value.split(",")
