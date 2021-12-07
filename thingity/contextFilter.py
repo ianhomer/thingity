@@ -28,14 +28,28 @@ class ContextFilter:
         return excludes
 
     def children(self, parent: str):
-        matcher = parent.upper() + ">"
-        for part in self.parts:
-            if part.startswith(matcher):
-                return part[len(matcher) :].split(",")
-        return []
+        context = self.context(parent)
+        return context.children if context else []
 
     def family(self, parent: str):
         return [parent.upper()] + self.children(parent)
 
+    # def repository(self, parent: str):
+    #     context = self.context(parent)
+    #     return context.repository if context else None
+
     def pattern(self, pattern: str):
         return "(" + "|".join(self.family(pattern)) + ")"
+
+    def context(self, parent: str):
+        matcher = parent.upper() + ">"
+        for part in self.parts:
+            if part.startswith(matcher):
+                return Context(part)
+        return None
+
+
+class Context:
+    def __init__(self, part):
+        parts = part.split(">")
+        self.children = parts[1].split(",") if len(parts) > 0 else [""]

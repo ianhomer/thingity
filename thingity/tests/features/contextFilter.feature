@@ -15,3 +15,7 @@ Feature: Context Filter
         When I have the filter -A,-D:A>B,C:E>F
         Then the filter has excludes A,B,C,D
         And the filter for E has children F
+
+    # Scenario: Context repository
+    #     When I have the filter :A(a-notes)>
+    #     Then the filter for A has repository a-notes
