@@ -16,6 +16,11 @@ Feature: Context Filter
         Then the filter has excludes A,B,C,D
         And the filter for E has children F
 
-    # Scenario: Context repository
-    #     When I have the filter :A(a-notes)>
-    #     Then the filter for A has repository a-notes
+    Scenario: Single context with repository
+        When I have the filter :A>>a-notes
+        Then the filter for A has repository a-notes
+    
+    Scenario: Context with children with repository
+        When I have the filter :A>B,C>a-notes
+        Then the filter for A has repository a-notes
+        And the filter for A has children B,C

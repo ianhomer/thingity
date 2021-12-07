@@ -5,11 +5,18 @@
 #
 # Where
 #
-#   part0 = -A,-B => exclude A and B as default context
-#   part = A>B,C => context A should also include B and C
+#   part0 = -A,-B => exclude A and B from contexts to be displayed by default
+#   part = A>B,C>a-name
+#     => context A should also include B and C
+#     => context A should be written to repository called "a-name"
 #
-# For example
-#   -A1,-A2:B>C,D:E>F,G
+# For example the following context filter excludes A and B by default from
+# show todos. Further context B implies C and D, so C and D are also excluded.
+# Context E (along with the implied F and G) should should be written to the
+# repository e-notes. Context P sould be written to the repository p-notes.
+#
+#   -A,-V:B>C,D:E>F,G>e-notes:P>>p-notes
+#
 #
 # This string is a lightweight string that can be set in envrionment and drive
 # defaults for the "do" command.
@@ -17,39 +24,42 @@
 class ContextFilter:
     def __init__(self, value: str):
         self.value = value
-        self.parts = self.value.split(":")
-        self.localPart = self.parts[0]
+        self.filterParts = self.value.split(":")
+        self.localContexts = self.filterParts[0]
 
     def excludes(self):
         excludes = []
-        for category in self.localPart.split(","):
-            if category.startswith("-"):
-                excludes += self.family(category[1:])
+        for contextName in self.localContexts.split(","):
+            if contextName.startswith("-"):
+                excludes += self.family(contextName[1:])
         return excludes
 
-    def children(self, parent: str):
-        context = self.context(parent)
-        return context.children if context else []
+    def children(self, contextName: str):
+        return self.context(contextName).children
 
-    def family(self, parent: str):
-        return [parent.upper()] + self.children(parent)
+    def family(self, contextName: str):
+        return [contextName.upper()] + self.children(contextName)
 
-    # def repository(self, parent: str):
-    #     context = self.context(parent)
-    #     return context.repository if context else None
+    def repository(self, contextName: str):
+        return self.context(contextName).repository
 
-    def pattern(self, pattern: str):
-        return "(" + "|".join(self.family(pattern)) + ")"
+    def pattern(self, contextName: str):
+        return "(" + "|".join(self.family(contextName)) + ")"
 
-    def context(self, parent: str):
-        matcher = parent.upper() + ">"
-        for part in self.parts:
-            if part.startswith(matcher):
-                return Context(part)
-        return None
+    def context(self, contextName: str):
+        filterPartMatcher = contextName.upper() + ">"
+        for filterPart in self.filterParts:
+            if filterPart.startswith(filterPartMatcher):
+                return Context(filterPart)
+        return Context()
 
 
 class Context:
-    def __init__(self, part):
-        parts = part.split(">")
-        self.children = parts[1].split(",") if len(parts) > 0 else [""]
+    def __init__(self, filterPart=None):
+        if not filterPart:
+            self.children = []
+            self.repository = None
+            return
+        contextParts = filterPart.split(">")
+        self.children = contextParts[1].split(",") if len(contextParts) > 1 else []
+        self.repository = contextParts[2] if len(contextParts) > 2 else None
