@@ -119,7 +119,7 @@ def context(environment: Environment):
 def search(environment: Environment, args):
 
     contextFilter = ContextFilter(environment.myDo)
-    excludes = [] if args.include or args.do else contextFilter.excludes()
+    excludes = [] if args.include or args.do else contextFilter.excludes
 
     if args.all:
         if args.do:

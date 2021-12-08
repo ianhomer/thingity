@@ -24,3 +24,4 @@ Feature: Context Filter
         When I have the filter :A>B,C>a-notes
         Then the filter for A has repository a-notes
         And the filter for A has children B,C
+        And the filter for B has repository a-notes
