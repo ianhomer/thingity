@@ -17,7 +17,7 @@ def I_have_the_filter(context, filter):
 
 @then(parsers.parse("the filter has excludes {value}"))
 def filter_should_have_field(context, value):
-    assert context["filter"].excludes() == value.split(",")
+    assert context["filter"].excludes == value.split(",")
 
 
 @then(parsers.parse("the filter for {child} has children {value}"))
