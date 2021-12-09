@@ -232,8 +232,13 @@ def search(environment: Environment, args):
 def add(environment, repository, do):
     # MEM (Memento https://www.imdb.com/title/tt0209144/)
     task = Task(f"{do}", defaultContext="MEM", natural=True)
+    contextFilter = ContextFilter(environment.myDo)
 
     now = datetime.now()
+    if not repository and task.context:
+        taskRepository = contextFilter.repository(task.context)
+        if taskRepository:
+            repository = taskRepository
     todayLog = Factory(environment).getTodayLog(repository, now)
     if not os.path.isfile(todayLog):
         Path(todayLog).touch()
