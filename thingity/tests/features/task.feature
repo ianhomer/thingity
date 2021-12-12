@@ -17,7 +17,7 @@ Feature: Task
         And the task repository is foo
         And the task context is ABC
         And the task subject is something
-        And the task row is 4000 ABC something foo things/foo/bar/my.md
+        And the task row is 4000 ABC something ‣foo things/foo/bar/my.md
 
     Scenario: Next task
         Given I am in the file my.md
@@ -156,5 +156,5 @@ Feature: Task
         And I am in the file my.md
         And I have the task MEM 20210617 1930 Something
         Then the task display is THU 19:30 Something
-        Then the task row is 2000202106171930 MEM THU 19:30 Something None my.md
+        Then the task row is 2000202106171930 MEM THU 19:30 Something ‣None my.md
 
