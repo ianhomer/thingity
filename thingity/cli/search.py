@@ -44,8 +44,9 @@ def search(args):
         search.sort = True
         search.maxPerFile = 1
         search.postFilter = (
-            "s/\\([^/]*\\).md:\\([0-9]*\\):\\(.*\\)/\\1.md:\\2:"
-            + "\\3 \033[95m(\\1)\033[0m/"
+            "s/:\\([^/]*\\)\\(.*\\/\\)"
+            + "\\([^/]*\\).md:\\([0-9]*\\):\\(.*\\)/:\\1\\2\\3.md:\\4:"
+            + "\\5 \033[95m(\\3)\033[2;90m (\\1)\033[0m/"
         )
     elif args.name == "bookmarks":
         search = Rg(environment)
