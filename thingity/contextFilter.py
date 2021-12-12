@@ -25,9 +25,18 @@ class ContextFilter:
     def __init__(self, value: str):
         self.value = value
         self.filterParts = self.value.split(":")
+        self.contexts = {}
+        self.parents = {}
+        for filterPart in self.filterParts[1:]:
+            contextParts = filterPart.split(">")
+            context = Context(filterPart)
+            self.contexts[contextParts[0]] = context
+            for child in context.children:
+                self.parents[child] = context
         self.localContexts = self.filterParts[0]
+        self.excludes = self.calculateExcludes()
 
-    def excludes(self):
+    def calculateExcludes(self):
         excludes = []
         for contextName in self.localContexts.split(","):
             if contextName.startswith("-"):
@@ -47,10 +56,10 @@ class ContextFilter:
         return "(" + "|".join(self.family(contextName)) + ")"
 
     def context(self, contextName: str):
-        filterPartMatcher = contextName.upper() + ">"
-        for filterPart in self.filterParts:
-            if filterPart.startswith(filterPartMatcher):
-                return Context(filterPart)
+        if contextName in self.contexts:
+            return self.contexts[contextName]
+        if contextName in self.parents:
+            return self.parents[contextName]
         return Context()
 
 
