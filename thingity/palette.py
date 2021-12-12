@@ -3,6 +3,7 @@ BOLD_END = "0m"
 BLUE = "34m"
 CLEAR = "0m"
 CYAN = "36m"
+DARK_GREY = "2;90m"
 GREEN = "32m"
 GREY = "90m"
 INVERSE = "7m"
@@ -32,6 +33,7 @@ class Palette:
                 "mission": GREEN,
                 "normal": NORMAL,
                 "question": BLUE,
+                "repository": DARK_GREY,
                 "separator": "\t",
                 "time": CYAN,
             }
