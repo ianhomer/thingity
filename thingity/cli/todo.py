@@ -53,7 +53,7 @@ def run():
     parser.add_argument("--getfilename", help="just return filename instead of editing")
     parser.add_argument("--justarchive", action="store_true")
     parser.add_argument("--witharchive", action="store_true")
-    parser.add_argument("--showrepository", action="store_true")
+    parser.add_argument("--hiderepository", action="store_true")
     parser.add_argument("-r", "--repository")
 
     args = parser.parse_args()
@@ -164,7 +164,7 @@ def search(environment: Environment, args):
         "-d",
         "\t",
         "--with-nth",
-        ("2,3,4" if args.showrepository else "2,3"),
+        ("2,3,4" if not args.hiderepository else "2,3"),
         "--tabstop",
         "4",
         "--layout",

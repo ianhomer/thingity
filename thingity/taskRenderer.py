@@ -48,7 +48,7 @@ class TaskRenderer:
             self.separator,
             self.renderBody(task),
             f"{self.separator}",
-            f"{self.palette.color('repository')}({task.repository}){self.clear}",
+            f"{self.palette.color('repository')}‣{task.repository}{self.clear}",
             f"{self.separator}{task.file}"
         ]
         return "".join(parts)
