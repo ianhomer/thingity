@@ -43,7 +43,7 @@ def edit(environment: Environment, args):
         filename = Factory(environment).getPath(kebab)
     else:
         # Thing is a today log.
-        filename = Factory(environment).getTodayLog(now)
+        filename = Factory(environment).getTodayLog(now=now)
 
     if not os.path.isfile(filename):
         # Create a new thing.
