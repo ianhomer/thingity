@@ -121,17 +121,18 @@ def search(environment: Environment, args):
     contextFilter = ContextFilter(environment.myDo)
     excludes = [] if args.include or args.do else contextFilter.excludes
 
+    todoPattern = "^[ ]*\\- \\[ \\]"
     if args.all:
         if args.do:
-            pattern = f"\\- \\[ \\] {contextFilter.pattern(args.do[0])}"
+            pattern = f"{todoPattern} {contextFilter.pattern(args.do[0])}"
         else:
-            pattern = "\\- \\[ \\]"
+            pattern = todoPattern
     elif args.do:
         # pattern = f"\\- \\[ \\] (GEE|DOT) [^\\.\\-]"
-        pattern = f"\\- \\[ \\] {contextFilter.pattern(args.do[0])} [^\\.\\-]"
+        pattern = f"{todoPattern} {contextFilter.pattern(args.do[0])} [^\\.\\-]"
     else:
         # By default ignore todos
-        pattern = "\\- \\[ \\](?! ([A-Z]{3} )?[\\.\\-])"
+        pattern = f"{todoPattern}(?! ([A-Z]{3} )?[\\.\\-])"
 
     ag = Ag(environment, args.justarchive, args.witharchive or args.all)
     agParts = ag.parts(
