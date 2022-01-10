@@ -41,7 +41,8 @@ def run():
         "-c", "--context", help="list all contexts", action="store_true"
     )
     parser.add_argument("--days", type=int, help="days")
-    parser.add_argument("--encoding", help="character encoding", default="utf-8")
+    parser.add_argument("--encoding", help="character encoding",
+        default="unicode_escape")
     parser.add_argument("--stream", action="store_true")
     parser.add_argument("-t", "--today", help="add today item", action="store_true")
 
