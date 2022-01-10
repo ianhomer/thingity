@@ -41,9 +41,7 @@ def run():
         "-c", "--context", help="list all contexts", action="store_true"
     )
     parser.add_argument("--days", type=int, help="days")
-    parser.add_argument(
-        "--encoding", help="character encoding", default="utf-8"
-    )
+    parser.add_argument("--encoding", help="character encoding", default="utf-8")
     parser.add_argument("--stream", action="store_true")
     parser.add_argument("-t", "--today", help="add today item", action="store_true")
 
@@ -141,7 +139,9 @@ def search(environment: Environment, args):
     agParts = ag.parts(
         pattern, ["--noheading", "--nonumbers", "--nocolor", "--nobreak", "--follow"]
     )
-    result = subprocess.run(agParts, stdout=PIPE, text=True, errors='replace', encoding=args.encoding)
+    result = subprocess.run(
+        agParts, stdout=PIPE, text=True, errors="replace", encoding=args.encoding
+    )
 
     lines = result.stdout.splitlines()
     days = args.days or (30 if args.all else 3)
