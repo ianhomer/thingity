@@ -142,7 +142,6 @@ def search(environment: Environment, args):
     result = subprocess.run(agParts, stdout=PIPE, text=True, encoding=args.encoding)
 
     lines = result.stdout.splitlines()
-    print(lines)
     days = args.days or (30 if args.all else 3)
     dos = []
     renderer = TaskRenderer(theme=None if args.stream else "do")
