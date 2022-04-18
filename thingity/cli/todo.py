@@ -56,6 +56,8 @@ def run():
     parser.add_argument("--getfilename", help="just return filename instead of editing")
     parser.add_argument("--justarchive", action="store_true")
     parser.add_argument("--witharchive", action="store_true")
+    parser.add_argument("--justgarage", action="store_true")
+    parser.add_argument("--withgarage", action="store_true")
     parser.add_argument("--hiderepository", action="store_true")
     parser.add_argument("-r", "--repository")
 
@@ -151,8 +153,10 @@ def search(environment: Environment, args):
     renderer = TaskRenderer(theme=None if args.stream else "do")
     for line in lines:
         task = Task(line, nearDays=days)
-        if task.context not in excludes and (
-            not args.repository or args.repository == task.repository
+        if (
+            task.context not in excludes
+            and (not args.repository or args.repository == task.repository)
+            and (args.withgarage or not(task.garage ^ args.justgarage))
         ):
             dos.append(renderer.render(task) + ("" if args.stream else "\n"))
     dos.sort()
