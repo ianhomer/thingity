@@ -51,7 +51,6 @@ class Thing:
             if match:
                 date = today.replace(
                     int(match.group(1)), int(match.group(2)), int(match.group(3))
-
                 )
 
         if date:

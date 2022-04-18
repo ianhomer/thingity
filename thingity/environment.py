@@ -49,7 +49,7 @@ class Environment:
     def myNotesDir(self):
         return self.directory + "/" + self.myNotes if self.myNotes else self.directory
 
-    def getNotesDir(self, repository=None):
+    def getNotesDir(self, repository):
         return self.directory + "/" + repository
 
     @property
