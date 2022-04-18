@@ -39,7 +39,7 @@ THINGS_DIR = /Users/me/projects/things
 - THINGS_DIR: Location of your things repositories
 
 Todo default configuration is context filter that filters out specific todo
-contexts by default.  It is of the form `(part0):(part):(part)` where
+contexts by default. It is of the form `(part0):(part):(part)` where
 
 - part0 = -A,-B => exclude A and B as default context
 - part = A>B,C => context A should also include B and Create

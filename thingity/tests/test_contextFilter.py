@@ -26,7 +26,7 @@ def filter_should_have_children(context, child, value):
 
 
 @then(parsers.parse("the filter for {child} has repository {value}"))
-def filter_should_have_children(context, child, value):
+def filter_should_have_repository(context, child, value):
     assert context["filter"].repository(child) == value
 
 

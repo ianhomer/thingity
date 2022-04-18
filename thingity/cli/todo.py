@@ -21,10 +21,12 @@ END = "\033[0m"
 
 # - [ ] ABC Todo
 # - [x] ABC Done
+# - [ ] ABC * Next
 # - [ ] ABC . Backlog
 # - [ ] ABC - Garage
 # - [ ] ABC ~ Alignment
 # - [x] ABC x Cancelled
+# - [x] ABC = Duplicate
 # - [ ] ABC Q Question
 
 

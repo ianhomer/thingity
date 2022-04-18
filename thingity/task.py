@@ -35,6 +35,7 @@ def repositoryFromFile(file):
     if match:
         return match.group(1)
 
+
 #
 # When natural is true then line interpretted as entered by human.
 #
@@ -129,7 +130,7 @@ class Task:
             if first == "~":
                 self.mission = True
                 self.subject = subject[1:].strip()
-            elif first == "*":
+            elif first == "^":
                 self.next = True
                 self.subject = subject[1:].strip()
             elif first == ".":
@@ -188,22 +189,26 @@ class Task:
         return self.date and self.date.daysAhead < self.nearDays
 
     @property
+    def upcoming(self):
+        return self.date and self.date.daysAhead < self.nearDays * 10
+
+    @property
     def rankGroup(self):
         return (
-            (2000 if self.near else 4000)
+            (1000 if self.near else 3000 if self.upcoming else 6000)
             if self.date is not None
             else (
-                7000
+                9000
                 if self.mission
-                else 7000
+                else 8000
                 if self.garage
-                else 6000
+                else 7000
                 if self.backlog
                 else 5000
                 if self.question
                 else 4000
                 if not self.next
-                else 3000
+                else 2000
             )
         )
 

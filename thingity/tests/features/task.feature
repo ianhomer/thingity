@@ -21,13 +21,13 @@ Feature: Task
 
     Scenario: Next task
         Given I am in the file my.md
-        And I have the task * something next
+        And I have the task ^ something next
         Then the task next is True
         And the task file is my.md
         And the task repository is not set
         And the task mission is False
         And the task subject is something next
-        And the task rank is 3000
+        And the task rank is 2000
 
     Scenario: Garage task
         Given I have the task - something in garage
@@ -82,6 +82,13 @@ Feature: Task
         And the task is ABC 20210611 something
         And the task is near
 
+    Scenario: Task with absolute upcoming day
+        Given today is 20210609
+        And natural mode
+        And I have the task ABC 20210704 something
+        Then the task subject is something
+        And the task is upcoming
+
     Scenario: Task with relative date
         Given today is 20210609
         And natural mode
@@ -106,7 +113,7 @@ Feature: Task
         And natural mode
         And I have the task SUN 10:15 something
         Then the task is MEM 20210613 1015 something
-        And the task rank is 2000202106131015
+        And the task rank is 1000202106131015
 
     Scenario: Task with relative day of todays day
         Given today is 20210613
@@ -132,7 +139,7 @@ Feature: Task
         Then the task subject is something
         And the task date is 01 JAN 2050
         And the task time is 14:15
-        And the task rank is 4000205001011415
+        And the task rank is 6000205001011415
 
     Scenario: Task with month
         Given today is 20210613
@@ -156,5 +163,5 @@ Feature: Task
         And I am in the file my.md
         And I have the task MEM 20210617 1930 Something
         Then the task display is THU 19:30 Something
-        Then the task row is 2000202106171930 MEM THU 19:30 Something ‣None my.md
+        Then the task row is 1000202106171930 MEM THU 19:30 Something ‣None my.md
 

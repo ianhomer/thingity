@@ -9,8 +9,11 @@ class Level(Enum):
 
 class Signal:
     def __init__(
-        self, message=None, level: Level = None, exception: Exception = None,
-        context=None
+        self,
+        message=None,
+        level: Level = None,
+        exception: Exception = None,
+        context=None,
     ):
         self.message = message
         self.context = context
