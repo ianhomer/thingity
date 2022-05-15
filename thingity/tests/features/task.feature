@@ -158,6 +158,10 @@ Feature: Task
         Then the task subject is something
         And the task context is XYZ
 
+    Scenario: Task with lower case context
+        Given I have the task abc something
+        Then the task context is ABC
+
     Scenario: Task with date in past
         Given today is 20210615
         And I am in the file my.md

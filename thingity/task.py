@@ -68,7 +68,7 @@ class Task:
             # Optional markdown part
             "(?:- \\[ \\] )?" +
             # Context part
-            "((?:[A-Z]{3}(?=\\s))?)\\s*" +
+            "((?:[a-zA-Z]{3}(?=\\s))?)\\s*" +
             # Date part
             "((?:(?:[0-9]+"
             + (
@@ -107,7 +107,7 @@ class Task:
         if match:
             self.file = match.group(1)
             self.repository = repositoryFromFile(self.file)
-            self.context = match.group(2) or self.defaultContext
+            self.context = match.group(2).upper() or self.defaultContext
             self.dateIn = match.group(3) or None
             if self.dateIn is None:
                 self.date = None
@@ -153,7 +153,7 @@ class Task:
                 self.subject = match.group(2)
         else:
             self.file = None
-            self.context = None
+            self.context = self.defaultContext
             self.date = None
             self.time = None
             self.subject = self.line
