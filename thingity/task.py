@@ -167,6 +167,14 @@ class Task:
         parts = []
         if self.context:
             parts += [self.context]
+        if self.next:
+            parts += "^"
+        elif self.mission:
+            parts += "~"
+        elif self.backlog:
+            parts += "."
+        elif self.garage:
+            parts += "-"
         if self.date:
             parts += [self.date.code]
         if self.time and self.timeInclude:
