@@ -21,30 +21,34 @@ Feature: Task
 
     Scenario: Next task
         Given I am in the file my.md
-        And I have the task ^ something next
+        And I have the task ABC ^ something next
         Then the task next is True
         And the task file is my.md
         And the task repository is not set
         And the task mission is False
         And the task subject is something next
         And the task rank is 2000
+        And the task is ABC ^ something next
 
     Scenario: Garage task
         Given I have the task - something in garage
         Then the task garage is True
         And the task mission is False
         And the task subject is something in garage
+        And the task is - something in garage
 
     Scenario: Mission task
         Given I have the task ~ something in mission
         Then the task garage is False
         And the task mission is True
         And the task subject is something in mission
+        And the task is ~ something in mission
 
     Scenario: Backlog task
-        Given I have the task . something in mission
+        Given I have the task . something in backlog
         Then the task backlog is True
-        And the task subject is something in mission
+        And the task subject is something in backlog
+        And the task is . something in backlog 
 
     Scenario: Backlog task
         Given I have the task a question?

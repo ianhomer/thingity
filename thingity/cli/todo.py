@@ -21,7 +21,7 @@ END = "\033[0m"
 
 # - [ ] ABC Todo
 # - [x] ABC Done
-# - [ ] ABC * Next
+# - [ ] ABC ^ Next
 # - [ ] ABC . Backlog
 # - [ ] ABC - Garage
 # - [ ] ABC ~ Alignment
