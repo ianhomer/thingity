@@ -88,6 +88,7 @@ Feature: Task
         And the task date is FRI
         And the task is ABC 20210611 something
         And the task is near
+        And the task is not upcoming
 
     Scenario: Task with absolute upcoming day
         Given today is 20210609
