@@ -168,6 +168,7 @@ Feature: Task
         Given I have the task something
         Then the task subject is something
         And the task context is not set
+        And the task is not awaits
 
     Scenario: Task inbox
         Given I have the task ABC something
@@ -183,6 +184,13 @@ Feature: Task
     Scenario: Task with lower case context
         Given I have the task abc something
         Then the task context is ABC
+
+    Scenario: Task with await
+        Given I have the task ABC {BOB} something
+        Then the task context is ABC
+        And the task display is BOB something
+        And the task is awaits
+        And the task is not inbox
 
     Scenario: Task with date in past
         Given today is 20210615

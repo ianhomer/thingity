@@ -207,8 +207,17 @@ class Task:
     @property
     def inbox(self):
         return not self.date and not (
-            self.mission or self.garage or self.backlog or self.question or self.next
+            self.mission
+            or self.garage
+            or self.backlog
+            or self.question
+            or self.next
+            or self.awaits
         )
+
+    @property
+    def awaits(self):
+        return re.match("{[A-Z]{3}}", self.subject)
 
     @property
     def rankGroup(self):

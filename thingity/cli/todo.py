@@ -37,6 +37,7 @@ Todos are written markdown files as
   - [x] ABC x Cancelled
   - [x] ABC = Duplicate
   - [ ] ABC Question?
+  - [ ] ABC await {BOB}
         """
         ),
     )
@@ -45,7 +46,9 @@ Todos are written markdown files as
     parser.add_argument("-2", "--next", help="next", action="store_true")
     parser.add_argument("-3", "--upcoming", help="upcoming", action="store_true")
     parser.add_argument("-4", "--inbox", help="inbox", action="store_true")
-    parser.add_argument("-5", "--question", help="question", action="store_true")
+    parser.add_argument(
+        "-5", "--awaits", help="awaits - dependency, questions", action="store_true"
+    )
     parser.add_argument("-6", "--future", help="future", action="store_true")
     parser.add_argument("-7", "--backlog", help="backlog", action="store_true")
     parser.add_argument("-8", "--garage", help="garage", action="store_true")
@@ -180,7 +183,7 @@ def search(environment: Environment, args):
                     or args.next
                     or args.upcoming
                     or args.inbox
-                    or args.question
+                    or args.awaits
                     or args.future
                     or args.backlog
                     or args.garage
@@ -191,7 +194,7 @@ def search(environment: Environment, args):
                     or (args.next and task.next)
                     or (args.upcoming and task.upcoming)
                     or (args.inbox and task.inbox)
-                    or (args.question and task.question)
+                    or (args.awaits and (task.question or task.awaits))
                     or (args.future and task.future)
                     or (args.backlog and task.backlog)
                     or (args.garage and task.garage)
