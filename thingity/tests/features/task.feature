@@ -138,6 +138,12 @@ Feature: Task
         And I have the task TOM tomorrow thing
         Then the task is MEM 20210614 tomorrow thing
 
+    Scenario: Task for next year
+        Given today is 20210613
+        And natural mode
+        And I have the task 20220401 next year thing
+        Then the task display is 01 APR 2022 next year thing
+
     Scenario: Task with date and time
         Given I have the task 20500101 1415 something
         Then the task subject is something

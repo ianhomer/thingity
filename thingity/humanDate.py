@@ -51,7 +51,7 @@ class HumanDate:
             self.display = self.date.strftime("%a").upper() + (
                 "+" if self.daysAhead == 7 else ""
             )
-        elif self.daysAhead < 300:
+        elif self.daysAhead < 180:
             if self.withDays:
                 self.display = self.date.strftime("%d %b").upper()
             else:
