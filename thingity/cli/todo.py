@@ -36,7 +36,7 @@ Todos are written markdown files as
   - [ ] ABC ~ Alignment
   - [x] ABC x Cancelled
   - [x] ABC = Duplicate
-  - [ ] ABC Q Question
+  - [ ] ABC Question?
         """
         ),
     )
@@ -44,7 +44,7 @@ Todos are written markdown files as
     parser.add_argument("-1", "--near", help="near", action="store_true")
     parser.add_argument("-2", "--next", help="next", action="store_true")
     parser.add_argument("-3", "--upcoming", help="upcoming", action="store_true")
-    parser.add_argument("-4", "--radar", help="radar", action="store_true")
+    parser.add_argument("-4", "--inbox", help="inbox", action="store_true")
     parser.add_argument("-5", "--question", help="question", action="store_true")
     parser.add_argument("-6", "--future", help="future", action="store_true")
     parser.add_argument("-7", "--backlog", help="backlog", action="store_true")
@@ -173,13 +173,13 @@ def search(environment: Environment, args):
         if (
             task.context not in excludes
             and (not args.repository or args.repository == task.repository)
-            and (args.withgarage or not (task.garage ^ args.justgarage))
+            and (args.all or args.withgarage or not (task.garage ^ args.justgarage))
             and (
                 not (
                     args.near
                     or args.next
                     or args.upcoming
-                    or args.radar
+                    or args.inbox
                     or args.question
                     or args.future
                     or args.backlog
@@ -190,7 +190,7 @@ def search(environment: Environment, args):
                     (args.near and task.near)
                     or (args.next and task.next)
                     or (args.upcoming and task.upcoming)
-                    or (args.radar and task.radar)
+                    or (args.inbox and task.inbox)
                     or (args.question and task.question)
                     or (args.future and task.future)
                     or (args.backlog and task.backlog)
