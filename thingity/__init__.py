@@ -1,3 +1,4 @@
+# flake8: noqa
 from .palette import Palette
 from .taskRenderer import TaskRenderer
 from .environment import Environment

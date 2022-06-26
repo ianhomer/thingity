@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Optional
 
 
 class Level(Enum):
@@ -11,8 +12,8 @@ class Signal:
     def __init__(
         self,
         message=None,
-        level: Level = None,
-        exception: Exception = None,
+        level: Optional[Level] = None,
+        exception: Optional[Exception] = None,
         context=None,
     ):
         self.message = message

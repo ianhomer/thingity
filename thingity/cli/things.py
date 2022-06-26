@@ -5,6 +5,7 @@ import os
 import subprocess
 import re
 import shutil
+from typing import Optional
 from subprocess import PIPE
 from .. import Environment, RepositoryFile, thingity
 
@@ -76,8 +77,8 @@ class Fzf:
     def __init__(
         self,
         environment: Environment,
-        thingsSearchArgs: str = None,
-        filter: str = None,
+        thingsSearchArgs: Optional[str] = None,
+        filter: Optional[str] = None,
         noedit: bool = False,
         dry: bool = False,
     ):

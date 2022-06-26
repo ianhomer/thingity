@@ -1,10 +1,13 @@
 import os
 import re
+from typing import Optional
 from datetime import date, timedelta
 
 
 class Thing:
-    def __init__(self, filename: str, root: str = None, today: date = date.today()):
+    def __init__(
+        self, filename: str, root: Optional[str] = None, today: date = date.today()
+    ):
         self.root = root
         self.filename = (
             filename
