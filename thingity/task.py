@@ -198,7 +198,7 @@ class Task:
 
     @property
     def upcoming(self):
-        return self.date and self.date.daysAhead < self.nearDays * 10
+        return self.date and not self.near and self.date.daysAhead < self.nearDays * 10
 
     @property
     def future(self):
