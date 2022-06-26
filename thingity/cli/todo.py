@@ -6,6 +6,7 @@ import os.path
 import subprocess
 import re
 import sys
+import textwrap
 from datetime import datetime
 from pathlib import Path
 from subprocess import PIPE
@@ -19,20 +20,36 @@ GREY = "\033[90m"
 END = "\033[0m"
 
 
-# - [ ] ABC Todo
-# - [x] ABC Done
-# - [ ] ABC ^ Next
-# - [ ] ABC . Backlog
-# - [ ] ABC - Garage
-# - [ ] ABC ~ Alignment
-# - [x] ABC x Cancelled
-# - [x] ABC = Duplicate
-# - [ ] ABC Q Question
-
-
 def run():
-    parser = argparse.ArgumentParser(description="todoer")
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description="todoer",
+        epilog=textwrap.dedent(
+            """
+Todos are written markdown files as
+
+  - [ ] ABC Todo
+  - [x] ABC Done
+  - [ ] ABC ^ Next
+  - [ ] ABC . Backlog
+  - [ ] ABC - Garage
+  - [ ] ABC ~ Alignment
+  - [x] ABC x Cancelled
+  - [x] ABC = Duplicate
+  - [ ] ABC Q Question
+        """
+        ),
+    )
     parser.add_argument("do", nargs="*", help="do")
+    parser.add_argument("-1", "--near", help="near", action="store_true")
+    parser.add_argument("-2", "--next", help="next", action="store_true")
+    parser.add_argument("-3", "--upcoming", help="upcoming", action="store_true")
+    parser.add_argument("-4", "--radar", help="radar", action="store_true")
+    parser.add_argument("-5", "--question", help="question", action="store_true")
+    parser.add_argument("-6", "--future", help="future", action="store_true")
+    parser.add_argument("-7", "--backlog", help="backlog", action="store_true")
+    parser.add_argument("-8", "--garage", help="garage", action="store_true")
+    parser.add_argument("-9", "--mission", help="mission", action="store_true")
     parser.add_argument(
         "-a", "--all", help="show all types of todos", action="store_true"
     )
@@ -156,7 +173,31 @@ def search(environment: Environment, args):
         if (
             task.context not in excludes
             and (not args.repository or args.repository == task.repository)
-            and (args.withgarage or not(task.garage ^ args.justgarage))
+            and (args.withgarage or not (task.garage ^ args.justgarage))
+            and (
+                not (
+                    args.near
+                    or args.next
+                    or args.upcoming
+                    or args.radar
+                    or args.question
+                    or args.future
+                    or args.backlog
+                    or args.garage
+                    or args.mission
+                )
+                or (
+                    (args.near and task.near)
+                    or (args.next and task.next)
+                    or (args.upcoming and task.upcoming)
+                    or (args.radar and task.radar)
+                    or (args.question and task.question)
+                    or (args.future and task.future)
+                    or (args.backlog and task.backlog)
+                    or (args.garage and task.garage)
+                    or (args.mission and task.mission)
+                )
+            )
         ):
             dos.append(renderer.render(task) + ("" if args.stream else "\n"))
     dos.sort()
