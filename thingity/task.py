@@ -205,7 +205,7 @@ class Task:
         return self.date and not (self.upcoming or self.near)
 
     @property
-    def radar(self):
+    def inbox(self):
         return not self.date and not (
             self.mission or self.garage or self.backlog or self.question or self.next
         )

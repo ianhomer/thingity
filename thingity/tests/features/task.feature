@@ -168,6 +168,11 @@ Feature: Task
         Then the task subject is something
         And the task context is not set
 
+    Scenario: Task inbox
+        Given I have the task ABC something
+        Then the task subject is something
+        And the task is inbox
+
     Scenario: Task with no context and default context
         Given default context is XYZ
         And I have the task something
