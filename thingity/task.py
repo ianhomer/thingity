@@ -201,6 +201,16 @@ class Task:
         return self.date and self.date.daysAhead < self.nearDays * 10
 
     @property
+    def future(self):
+        return self.date and not (self.upcoming or self.near)
+
+    @property
+    def radar(self):
+        return not self.date and not (
+            self.mission or self.garage or self.backlog or self.question or self.next
+        )
+
+    @property
     def rankGroup(self):
         return (
             (1000 if self.near else 3000 if self.upcoming else 6000)

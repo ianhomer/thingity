@@ -36,11 +36,12 @@ Feature: Task
         And the task mission is False
         And the task subject is something in garage
         And the task is - something in garage
+        And the task is garage
 
     Scenario: Mission task
         Given I have the task ~ something in mission
         Then the task garage is False
-        And the task mission is True
+        And the task is mission
         And the task subject is something in mission
         And the task is ~ something in mission
 
@@ -63,11 +64,13 @@ Feature: Task
         Given I have the task 0 something
         Then the task subject is something
         And the task date is ***
+        And the task is near
 
     Scenario: Task for the future
         Given I have the task 20500101 something
         Then the task subject is something
         And the task date is 01 JAN 2050
+        And the task is future
 
     Scenario: Task with to date
         Given I have the task 20500101 to 20500120 something
@@ -92,6 +95,7 @@ Feature: Task
         And I have the task ABC 20210704 something
         Then the task subject is something
         And the task is upcoming
+        And the task is not diary
 
     Scenario: Task with relative date
         Given today is 20210609
@@ -105,12 +109,14 @@ Feature: Task
         And natural mode
         And I have the task SUN something
         Then the task is MEM 20210613 something
+        And the task is upcoming
 
     Scenario: Task with time without context
         Given today is 20210609
         And natural mode
         And I have the task 17:15 something
         Then the task is MEM 20210609 1715 something
+        And the task is near
 
     Scenario: Task with relative day with time without context
         Given today is 20210612
