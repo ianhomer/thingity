@@ -261,3 +261,6 @@ class Task:
             return "question"
         else:
             return "normal"
+
+    def __lt__(self, obj):
+        return self.rank < obj.rank

@@ -7,6 +7,7 @@ import subprocess
 import re
 import sys
 import textwrap
+import time
 from datetime import datetime
 from pathlib import Path
 from subprocess import PIPE
@@ -65,6 +66,7 @@ Todos are written markdown files as
     parser.add_argument("--days", type=int, help="days")
     parser.add_argument("--encoding", help="character encoding", default="utf-8")
     parser.add_argument("--stream", action="store_true")
+    parser.add_argument("--markdown", action="store_true")
     parser.add_argument("-t", "--today", help="add today item", action="store_true")
 
     # General settings
@@ -169,8 +171,8 @@ def search(environment: Environment, args):
 
     lines = result.stdout.splitlines()
     days = args.days or (30 if args.all else 3)
-    dos = []
-    renderer = TaskRenderer(theme=None if args.stream else "do")
+    renderer = TaskRenderer(theme=None if (args.stream or args.markdown) else "do")
+    tasks = []
     for line in lines:
         task = Task(line, nearDays=days)
         if (
@@ -202,8 +204,16 @@ def search(environment: Environment, args):
                 )
             )
         ):
-            dos.append(renderer.render(task) + ("" if args.stream else "\n"))
-    dos.sort()
+            tasks.append(task)
+    tasks.sort()
+    if args.markdown:
+        print(f"# {time.strftime('%a %-d %b %Y')}\n")
+        for task in tasks:
+            print(f"- [ ] {renderer.renderBody(task)}")
+        return False
+    dos = []
+    for task in tasks:
+        dos.append(renderer.render(task) + ("" if args.stream else "\n"))
     # Simply stream the output
     if args.stream:
         for do in dos:
