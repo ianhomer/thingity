@@ -209,7 +209,7 @@ def search(environment: Environment, args):
     if args.markdown:
         print(f"# {time.strftime('%a %-d %b %Y')}\n")
         for task in tasks:
-            print(f"- [ ] {renderer.renderBody(task)}")
+            print(f"- [ ] **{task.context}** {renderer.renderBody(task)}")
         return False
     dos = []
     for task in tasks:
