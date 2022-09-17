@@ -10,6 +10,7 @@ Feature: Context Filter
         Then the filter for A has children B,C
         And the filter for A has family A,B,C
         And the filter for A has pattern (A|B|C)
+        And the filter for B has no children
 
     Scenario: Excludes family
         When I have the filter -A,-D:A>B,C:E>F
@@ -19,7 +20,7 @@ Feature: Context Filter
     Scenario: Single context with repository
         When I have the filter :A>>a-notes
         Then the filter for A has repository a-notes
-    
+
     Scenario: Context with children with repository
         When I have the filter :A>B,C>a-notes
         Then the filter for A has repository a-notes

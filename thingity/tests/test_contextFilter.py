@@ -20,9 +20,14 @@ def filter_should_have_field(context, value):
     assert context["filter"].excludes == value.split(",")
 
 
-@then(parsers.parse("the filter for {child} has children {value}"))
-def filter_should_have_children(context, child, value):
-    assert context["filter"].children(child) == value.split(",")
+@then(parsers.parse("the filter for {name} has children {value}"))
+def filter_should_have_children(context, name, value):
+    assert context["filter"].children(name) == value.split(",")
+
+
+@then(parsers.parse("the filter for {name} has no children"))
+def filter_should_have_no_children(context, name):
+    assert context["filter"].children(name) == []
 
 
 @then(parsers.parse("the filter for {child} has repository {value}"))

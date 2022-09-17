@@ -59,16 +59,20 @@ class ContextFilter:
         if contextName in self.contexts:
             return self.contexts[contextName]
         if contextName in self.parents:
-            return self.parents[contextName]
+            return Context(repository=self.parents[contextName].repository)
         return Context()
 
 
 class Context:
-    def __init__(self, filterPart=None):
-        if not filterPart:
+    def __init__(self, filterPart=None, repository=None):
+        if repository:
+            self.children = []
+            self.repository = repository
+        elif not filterPart:
             self.children = []
             self.repository = None
             return
-        contextParts = filterPart.split(">")
-        self.children = contextParts[1].split(",") if len(contextParts) > 1 else []
-        self.repository = contextParts[2] if len(contextParts) > 2 else None
+        else:
+            contextParts = filterPart.split(">")
+            self.children = contextParts[1].split(",") if len(contextParts) > 1 else []
+            self.repository = contextParts[2] if len(contextParts) > 2 else None
