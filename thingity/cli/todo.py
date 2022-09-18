@@ -320,7 +320,7 @@ def add(environment, repository, do):
             lines.append("\n")
 
         # Space between dos and next paragraph
-        if len(lines) > 1 and not lines[2].startswith("-"):
+        if len(lines) > 2 and not lines[2].startswith("-"):
             lines.insert(2, "\n")
 
         lines.insert(2, f"- [ ] {task}\n")
