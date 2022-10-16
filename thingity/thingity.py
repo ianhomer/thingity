@@ -20,11 +20,7 @@ def synk(force, justMyNotes=False):
             runner.has(shouldSynkFile)
             time.sleep(1)
     else:
-        if environment.hasTmux:
-            subprocess.run(
-                ["tmux", "split-window", "-d", "-l", "1", "-v", "things --synk -m"]
-            )
-        elif environment.hasGitSynk:
+        if environment.hasGitSynk:
             subprocess.run(["things", "--synk", "-m"])
     return force
 

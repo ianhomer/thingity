@@ -53,10 +53,6 @@ class Environment:
         return self.directory + "/" + repository
 
     @property
-    def hasTmux(self):
-        return shutil.which("tmux")
-
-    @property
     def hasGitSynk(self):
         return shutil.which("git-synk")
 

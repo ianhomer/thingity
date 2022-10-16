@@ -235,8 +235,7 @@ def search(environment: Environment, args):
         "reverse",
         "--tiebreak",
         "begin",
-        "--bind=ctrl-s:abort,ctrl-w:abort,ctrl-space:abort,"
-        + "ctrl-o:execute(tmux split-window -v 'nvim {4}')",
+        "--bind=ctrl-s:abort,ctrl-w:abort,ctrl-space:abort,",
     ]
     if args.filter:
         fzfArgs += ["--filter", args.filter]

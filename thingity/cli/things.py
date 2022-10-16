@@ -157,7 +157,6 @@ class Fzf:
             "ctrl-w:abort",
             "ctrl-x:abort",
             "ctrl-space:abort",
-            "ctrl-o:execute(tmux split-window -v 'nvim {2}')",
         ]
 
     def run(self):
