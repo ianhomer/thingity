@@ -20,7 +20,20 @@ def synk(force, justMyNotes=False):
             runner.has(shouldSynkFile)
             time.sleep(1)
     else:
-        if environment.hasGitSynk:
+        if environment.inKitty:
+            subprocess.run(
+                [
+                    "kitty",
+                    "@",
+                    "launch",
+                    "--location",
+                    "hsplit",
+                    "fish",
+                    "-c"
+                    "things --synk -m",
+                ]
+            )
+        elif environment.hasGitSynk:
             subprocess.run(["things", "--synk", "-m"])
     return force
 

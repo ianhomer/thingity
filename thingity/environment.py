@@ -59,3 +59,7 @@ class Environment:
     @property
     def subshellOpen(self):
         return "(" if self.isFish else "$("
+
+    @property
+    def inKitty(self):
+        return 'KITTY_PID' in os.environ
