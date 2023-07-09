@@ -24,9 +24,6 @@ def run():
 
     environment = Environment.withConfig(not args.noconfig)
 
-    if thingity.synk(args.synk, args.my):
-        return
-
     edit(environment, args)
 
 
@@ -46,6 +43,7 @@ def edit(environment: Environment, args):
         filename = Factory(environment).getTodayLog(now=now)
 
     if not os.path.isfile(filename):
+        isNewFile = True
         # Create a new thing.
         Path(filename).touch()
         with open(filename, "w") as file:
@@ -54,9 +52,16 @@ def edit(environment: Environment, args):
             else:
                 title = " ".join(words)
             file.write(f"# {title}\n\n\n")
+    else:
+        isNewFile = False
+        thingity.synk(args.synk, args.my)
 
     # Edit a thing.
     subprocess.call(
         [environment.editor, filename, "+:$"],
         cwd=environment.directory,
     )
+
+    # Syncrhonise after new file creation
+    if isNewFile:
+        thingity.synk(args.synk, args.my, inLine=True)

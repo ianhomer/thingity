@@ -7,7 +7,7 @@ from . import Environment, runner, Signal, Thing
 environment = Environment()
 
 
-def synk(force, justMyNotes=False):
+def synk(force, justMyNotes=False, inLine=False):
     shouldSynkFile = (
         environment.home + "/.config/dotme/should-run/last-run-git-synk-things"
     )
@@ -20,7 +20,7 @@ def synk(force, justMyNotes=False):
             runner.has(shouldSynkFile)
             time.sleep(1)
     else:
-        if environment.inKitty:
+        if environment.inKitty and not inLine:
             subprocess.run(
                 [
                     "kitty",
