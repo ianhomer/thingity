@@ -39,6 +39,9 @@ Todos are written markdown files as
   - [x] ABC = Duplicate
   - [ ] ABC Question?
   - [ ] ABC await {BOB}
+
+If no arguments are provided then --all and --include are defaulted to
+be enabled
         """
         ),
     )
@@ -84,6 +87,11 @@ Todos are written markdown files as
     parser.add_argument("-r", "--repository")
 
     args = parser.parse_args()
+
+    # By default show all todos and include all contexts
+    if len(sys.argv) == 1:
+        args.all = True
+        args.include = True
 
     if args.test:
         args.filter = args.test
@@ -144,7 +152,6 @@ def context(environment: Environment):
 
 
 def search(environment: Environment, args):
-
     contextFilter = ContextFilter(environment.myDo)
     excludes = [] if args.include or args.do else contextFilter.excludes
 
