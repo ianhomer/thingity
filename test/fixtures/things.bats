@@ -4,7 +4,7 @@ load test_helper
 
 @test "things : should use local directory" {
   run things --noconfig --info
-  assert_output --partial 'thingity/test'
+  assert_output --partial 'thingity/testxx'
 }
 
 @test "things : should find things" {
