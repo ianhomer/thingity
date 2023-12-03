@@ -54,9 +54,13 @@ jobs:
       - name: run cli
         run: |
           things-search --noconfig --dry -n headings
+          echo "things-search --noconfig -n headings"
           things-search --noconfig -n headings
+          echo "things-search --noconfig --dry"
           things-search --noconfig --dry
+          echo "things-search --noconfig"
           things-search --noconfig
+          echo "Direct rg"
           rg -i --glob '!archive/' --glob '**/*.md' --no-heading \
             --follow --color never -n -m 1 ""
           things --noconfig --test "test thing 2"
