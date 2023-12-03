@@ -7,6 +7,7 @@ class Rg(Search):
         self, environment: Environment, match=None, justArchive=False, withArchive=False
     ):
         super(Rg, self).__init__(environment)
+        self.environment = environment
         self.match = match
         self.globParts = self.createGlobParts(justArchive, withArchive)
         self.withPcre2 = False
