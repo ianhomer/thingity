@@ -52,7 +52,9 @@ jobs:
       - name: install dependencies
         run: sudo apt-get install -y fzf silversearcher-ag ripgrep
       - name: run cli
-        run: things --noconfig --test "test thing 2"
+        run: |
+          things-search --noconfig --dry -n headings
+          things --noconfig --test "test thing 2"
       - name: pnpm install
         working-directory: test
         run: pnpm i
