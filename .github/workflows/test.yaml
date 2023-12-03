@@ -66,11 +66,9 @@ jobs:
           ls
           ls -R things
           echo "rg with glob"
-          rg --glob '**/*.md' ""
-          echo "Direct rg full"
-          rg --glob '**/*.md' ""
+          rg --glob '**/*.md' ''
           echo "Direct rg full 2"
-          rg -i --glob '!archive/' --glob '**/*.md' --no-heading --follow --color never -n -m 1 ""
+          rg -i --glob '!archive/' --glob '**/*.md' --no-heading --follow --color never -n -m 1 ''
           echo "things with filter"
           things --noconfig --test "test thing 2"
         working-directory: test
