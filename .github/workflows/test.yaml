@@ -57,6 +57,8 @@ jobs:
           things-search --noconfig -n headings
           things-search --noconfig --dry
           things-search --noconfig
+          rg -i --glob '!archive/' --glob '**/*.md' --no-heading \
+            --follow --color never -n -m 1 ""
           things --noconfig --test "test thing 2"
       - name: pnpm install
         working-directory: test
