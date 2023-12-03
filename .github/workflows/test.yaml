@@ -62,6 +62,9 @@ jobs:
           things-search --noconfig
           echo "Direct rg"
           rg || echo "rg help"
+          rg --version
+          ls
+          ls -R things
           echo "rg with glob"
           rg --glob '**/*.md' ""
           echo "Direct rg full"
