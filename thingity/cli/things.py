@@ -173,7 +173,7 @@ class Fzf:
             stdout=PIPE,
             text=True,
             stderr=subprocess.STDOUT,
-            env={**os.environ, "FZF_DEFAULT_COMMAND": self.defaultCommand},
+            env={**os.environ, "FZF_DEFAULT_COMMAND": self.defaultCommand + " 2>1"},
             cwd=self.environment.directory,
         )
         if self.dry:
