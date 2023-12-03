@@ -1,6 +1,5 @@
 #!/usr/bin/env bats
 
-things --noconfig --test "test thing 2"
 
 load test_helper
 
