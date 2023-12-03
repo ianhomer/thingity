@@ -65,6 +65,8 @@ jobs:
           rg --version
           ls
           ls -R things
+          echo "rg basic"
+          rg thing
           echo "rg with glob"
           rg --glob '**/*.md' ''
           echo "Direct rg full 2"
