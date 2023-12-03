@@ -61,8 +61,11 @@ jobs:
           echo "things-search --noconfig"
           things-search --noconfig
           echo "Direct rg"
+          rg --glob '**/*.md' ""
+          echo "Direct rg full"
           rg -i --glob '!archive/' --glob '**/*.md' --no-heading \
             --follow --color never -n -m 1 ""
+          echo "things with filter"
           things --noconfig --test "test thing 2"
         working-directory: test
       - name: pnpm install
