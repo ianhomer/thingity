@@ -5,7 +5,7 @@ Feature: Task
         Given I have the task ABC something
         Then the task context is ABC
         And the task garage is False
-        And the task date is not set
+        And the task date isn't set
         And the task mission is False
         And the task subject is something
         And the task rank is 4000
@@ -24,7 +24,7 @@ Feature: Task
         And I have the task ABC ^ something next
         Then the task next is True
         And the task file is my.md
-        And the task repository is not set
+        And the task repository isn't set
         And the task mission is False
         And the task subject is something next
         And the task rank is 2000
@@ -49,7 +49,7 @@ Feature: Task
         Given I have the task . something in backlog
         Then the task backlog is True
         And the task subject is something in backlog
-        And the task is . something in backlog 
+        And the task is . something in backlog
 
     Scenario: Backlog task
         Given I have the task a question?
@@ -88,7 +88,7 @@ Feature: Task
         And the task date is FRI
         And the task is ABC 20210611 something
         And the task is near
-        And the task is not upcoming
+        And the task isn't upcoming
 
     Scenario: Task with absolute upcoming day
         Given today is 20210609
@@ -96,14 +96,14 @@ Feature: Task
         And I have the task ABC 20210704 something
         Then the task subject is something
         And the task is upcoming
-        And the task is not diary
+        And the task isn't diary
 
     Scenario: Task with relative date
         Given today is 20210609
         And natural mode
         And I have the task ABC JUL 8 something
         Then the task is ABC 20210708 something
-        And the task is not near
+        And the task isn't near
 
     Scenario: Task with relative day without context
         Given today is 20210609
@@ -167,8 +167,8 @@ Feature: Task
     Scenario: Task with no context
         Given I have the task something
         Then the task subject is something
-        And the task context is not set
-        And the task is not awaits
+        And the task context isn't set
+        And the task isn't awaits
 
     Scenario: Task inbox
         Given I have the task ABC something
@@ -190,7 +190,7 @@ Feature: Task
         Then the task context is ABC
         And the task display is BOB something
         And the task is awaits
-        And the task is not inbox
+        And the task isn't inbox
 
     Scenario: Task with date in past
         Given today is 20210615

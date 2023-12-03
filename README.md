@@ -52,6 +52,10 @@ default. Note that you can show all todos, even excluded contexts, with `todo -a
 
     ptw
 
+Or watch with a specific task
+
+    ptw -- -k task
+
 ## Exploratative tests
 
 Start up thingity in a container
