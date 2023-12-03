@@ -171,7 +171,10 @@ class Fzf:
             print(f"Default command : {self.defaultCommand}")
 
         searchProcess = subprocess.Popen(
-            self.defaultCommand.split(" "), stdout=subprocess.PIPE, text=True
+            self.defaultCommand.split(" "),
+            stdout=subprocess.PIPE,
+            text=True,
+            cwd=self.environment.directory,
         )
         process = subprocess.run(
             cmd,
