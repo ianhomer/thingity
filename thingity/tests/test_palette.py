@@ -10,7 +10,7 @@ def context():
     return dict()
 
 
-@when(parsers.parse("I have the empty palette"))
+@when(parsers.parse("I have an empty palette"))
 def I_have_empty_palette(context):
     context["palette"] = Palette()
 
