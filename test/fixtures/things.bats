@@ -9,7 +9,7 @@ load test_helper
 }
 
 @test "things : should find things" {
-  run things --noconfig --dry --test "test thing 2" 2>&1
+  run things --noconfig --test "test thing 2"
   assert_output --partial 'Test Thing 2'
 }
 
