@@ -1,5 +1,7 @@
 #!/usr/bin/env bats
 
+things --noconfig --dry --test "test thing 2"
+
 load test_helper
 
 @test "things : should use local directory" {
