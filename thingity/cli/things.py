@@ -166,17 +166,18 @@ class Fzf:
         if len(self.binds) > 0:
             cmd += ["--bind", ",".join(self.binds)]
         if self.dry:
-            print(cmd)
+            print(f"FZF command : {cmd}")
+            print(f"Default command : {self.defaultCommand}")
         process = subprocess.run(
             cmd,
             stdout=PIPE,
             text=True,
-            stderr=None,
+            stderr=subprocess.STDOUT,
             env={**os.environ, "FZF_DEFAULT_COMMAND": self.defaultCommand},
             cwd=self.environment.directory,
         )
         if self.dry:
-            print(process.stdout)
+            print(f"FZF Output : {process.stdout}")
             return
         lines = process.stdout.splitlines()
         if self.filter:
