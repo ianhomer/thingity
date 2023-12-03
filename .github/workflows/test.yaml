@@ -61,6 +61,8 @@ jobs:
           echo "things-search --noconfig"
           things-search --noconfig
           echo "Direct rg"
+          rg
+          echo "rg with glob"
           rg --glob '**/*.md' ""
           echo "Direct rg full"
           rg -i --glob '!archive/' --glob '**/*.md' --no-heading \
