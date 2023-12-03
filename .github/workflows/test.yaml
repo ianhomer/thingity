@@ -54,6 +54,9 @@ jobs:
       - name: run cli
         run: |
           things-search --noconfig --dry -n headings
+          things-search --noconfig -n headings
+          things-search --noconfig --dry
+          things-search --noconfig
           things --noconfig --test "test thing 2"
       - name: pnpm install
         working-directory: test
