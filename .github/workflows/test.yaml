@@ -56,4 +56,4 @@ jobs:
         run: pnpm i
       - name: test
         working-directory: test
-        run: pnpx bats -T fixtures
+        run: pnpm test
