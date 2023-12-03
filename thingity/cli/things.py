@@ -44,6 +44,8 @@ def run():
 
     if args.info:
         print(f"Things directory : {environment.directory}")
+        print(f"My notes : {environment.myNotes}")
+        print(f"My notes directory : {environment.myNotesDir}")
         return
 
     if (not args.filter) and thingity.synk(args.synk, args.my):
