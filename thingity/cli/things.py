@@ -5,6 +5,7 @@ import os
 import subprocess
 import re
 import shutil
+from sys import stdin
 from typing import Optional
 from subprocess import PIPE
 from .. import Environment, RepositoryFile, thingity
@@ -168,12 +169,16 @@ class Fzf:
         if self.dry:
             print(f"FZF command : {cmd}")
             print(f"Default command : {self.defaultCommand}")
+
+        searchProcess = subprocess.Popen(
+            self.defaultCommand.split(" "), stdout=subprocess.PIPE, text=True
+        )
         process = subprocess.run(
             cmd,
             stdout=PIPE,
             text=True,
+            stdin=searchProcess.stdout,
             stderr=subprocess.STDOUT,
-            env={**os.environ, "FZF_DEFAULT_COMMAND": self.defaultCommand + " 2>1"},
             cwd=self.environment.directory,
         )
         if self.dry:
