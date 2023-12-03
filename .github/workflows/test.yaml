@@ -60,6 +60,7 @@ jobs:
           rg -i --glob '!archive/' --glob '**/*.md' --no-heading \
             --follow --color never -n -m 1 ""
           things --noconfig --test "test thing 2"
+        working-directory: test
       - name: pnpm install
         working-directory: test
         run: pnpm i
