@@ -74,6 +74,7 @@ jobs:
           things --noconfig --test "test thing 2"
           echo "ag bananas with path"
           ag bananas .
+          ag --noheading --nonumbers --nobreak bananas .
           echo "todo with filter"
           todo --noconfig --test bananas
         working-directory: test
