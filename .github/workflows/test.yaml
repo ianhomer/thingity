@@ -72,6 +72,10 @@ jobs:
           rg -i --glob '!archive/' --glob '**/*.md' --no-heading --follow --color never -n -m 1 '' .
           echo "things with filter"
           things --noconfig --test "test thing 2"
+          echo "ag bananas"
+          ag bananas
+          echo "ag bananas with path"
+          ag bananas .
           echo "todo with filter"
           todo --noconfig --test bananas
         working-directory: test
