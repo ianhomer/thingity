@@ -75,7 +75,9 @@ jobs:
           ag --version
           echo "ag bananas with path"
           ag bananas .
-          ag --noheading --nonumbers --nobreak bananas .
+          ag --noheading --nonumbers --nobreak bananas . </dev/null
+          echo "ag with pipe in of dev/null https://github.com/ggreer/the_silver_searcher/issues/943"
+          ag --noheading --nonumbers --nobreak bananas . </dev/null
           echo "ag with filename"
           ag --noheading --nonumbers --nobreak --filename bananas .
           echo "todo with filter"
