@@ -175,7 +175,7 @@ def search(environment: Environment, args):
     )
     result = subprocess.run(
         agParts, stdout=PIPE, text=True, errors="replace", encoding=args.encoding,
-        stdin=None,
+        stdin=subprocess.DEVNULL,
         cwd=environment.directory
     )
 
