@@ -91,6 +91,6 @@ class Thing:
             self.collection
             + "/"
             + ((self.normalPath + "/") if self.normalPath else "")
-            + self.normalBase
+            + re.sub("[^a-zA-Z0-9-]", "-", self.normalBase)
             + ".md"
         )

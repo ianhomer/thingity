@@ -49,3 +49,8 @@ Feature: Things
         Then the thing base is thing
         And the thing is normal
         And the thing path isn't set
+
+    Scenario: No normal thing
+        When I have the thing "my-collection/Ab_c d.123.md"
+        Then the thing isn't normal
+        And the thing normalFilename is my-collection/Ab-c-d-123.md
