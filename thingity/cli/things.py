@@ -151,11 +151,11 @@ class Fzf:
             "ctrl-f:reload("
             + "fd --changed-within 3months md --exec stat -f '%m:%N:1:%N' {q} "
             + "| sort -r)",
-            "ctrl-t:reload(" + search + "-n tags --witharchive {q} || true)",
-            "ctrl-e:reload(" + search + "-n sort-modified --witharchive {q} || true)",
-            "ctrl-b:reload(" + search + "-n bookmarks --witharchive {q} || true)",
-            "ctrl-g:reload(" + search + "-n links --witharchive {q} || true)",
-            "ctrl-s:reload(" + search + "-n headings --witharchive {q} || true)",
+            "ctrl-t:reload(" + search + " -n tags --witharchive {q} || true)",
+            "ctrl-e:reload(" + search + " -n sort-modified --witharchive {q} || true)",
+            "ctrl-b:reload(" + search + " -n bookmarks --witharchive {q} || true)",
+            "ctrl-g:reload(" + search + " -n links --witharchive {q} || true)",
+            "ctrl-s:reload(" + search + " -n headings --witharchive {q} || true)",
             # Note that ctrl-x aborts so that a subsequence ctrl-x in fish shell
             # opens cheats. Similarly for ctrl-w opening todos.
             "ctrl-w:abort",
@@ -176,22 +176,23 @@ class Fzf:
             stdout=subprocess.PIPE,
             text=True,
             cwd=self.environment.directory,
-        )
+        ).stdout
         process = subprocess.Popen(
             cmd,
             stdout=PIPE,
             text=True,
-            stdin=searchProcess.stdout,
+            stdin=searchProcess,
             stderr=None,
             env={**os.environ, "FZF_DEFAULT_COMMAND": self.defaultCommand},
             cwd=self.environment.directory,
         )
         output, error = process.communicate()
+        if error:
+            print(error)
+
         if self.dry:
             print(f"FZF Output : {output}")
             return
-        if error:
-            print(error)
 
         lines = output.splitlines()
         if self.filter:
