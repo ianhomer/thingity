@@ -20,3 +20,8 @@ Feature: Repository File
         Then the file path is bar/thing.md
         And the file root is thingity/tests/data/things/foo
 
+    Scenario: File has leading ./
+        Given I am in directory thingity/tests/data/things
+        When I have the file ./foo/bar/thing.md
+        Then the file path is bar/thing.md
+        And the file root is thingity/tests/data/things/foo
