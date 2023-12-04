@@ -37,5 +37,4 @@ class Rg(Search):
         if self.maxPerFile > 0:
             parts.extend(["-m", str(self.maxPerFile)])
         parts.append(self.matchPrefix + (self.match or ""))
-        parts.append(self.environment.directory)
         return parts
