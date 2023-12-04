@@ -170,10 +170,13 @@ def search(environment: Environment, args):
 
     ag = Ag(environment, args.justarchive, args.witharchive or args.all)
     agParts = ag.parts(
-        pattern, ["--noheading", "--nonumbers", "--nocolor", "--nobreak", "--follow"]
+        pattern,
+        ["--noheading", "--nonumbers", "--nocolor", "--nobreak", "--follow"]
     )
     result = subprocess.run(
-        agParts, stdout=PIPE, text=True, errors="replace", encoding=args.encoding
+        agParts, stdout=PIPE, text=True, errors="replace", encoding=args.encoding,
+        stdin=subprocess.DEVNULL,
+        cwd=environment.directory
     )
 
     lines = result.stdout.splitlines()
@@ -274,6 +277,8 @@ def search(environment: Environment, args):
     stdout = fzf.stdout
     if stdout:
         output = stdout.read().decode(encoding)
+        if args.test:
+            print(output)
         match = re.search("^([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)$", output)
         file = None
         if match:

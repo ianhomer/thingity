@@ -5,6 +5,7 @@ import os
 import subprocess
 import re
 import shutil
+from sys import stdin
 from typing import Optional
 from subprocess import PIPE
 from .. import Environment, RepositoryFile, thingity
@@ -44,6 +45,8 @@ def run():
 
     if args.info:
         print(f"Things directory : {environment.directory}")
+        print(f"My notes : {environment.myNotes}")
+        print(f"My notes directory : {environment.myNotesDir}")
         return
 
     if (not args.filter) and thingity.synk(args.synk, args.my):
@@ -139,6 +142,7 @@ class Fzf:
                 ]
         self.parts = []
         self.defaultCommand = "true"
+        self.searchCommand = []
         self.filenameMatcher = "^[^:]*:([^:]*)"
         search = (
             "things-search " + thingsSearchArgs if thingsSearchArgs else "things-search"
@@ -147,11 +151,11 @@ class Fzf:
             "ctrl-f:reload("
             + "fd --changed-within 3months md --exec stat -f '%m:%N:1:%N' {q} "
             + "| sort -r)",
-            "ctrl-t:reload(" + search + "-n tags --witharchive {q} || true)",
-            "ctrl-e:reload(" + search + "-n sort-modified --witharchive {q} || true)",
-            "ctrl-b:reload(" + search + "-n bookmarks --witharchive {q} || true)",
-            "ctrl-g:reload(" + search + "-n links --witharchive {q} || true)",
-            "ctrl-s:reload(" + search + "-n headings --witharchive {q} || true)",
+            "ctrl-t:reload(" + search + " -n tags --witharchive {q} || true)",
+            "ctrl-e:reload(" + search + " -n sort-modified --witharchive {q} || true)",
+            "ctrl-b:reload(" + search + " -n bookmarks --witharchive {q} || true)",
+            "ctrl-g:reload(" + search + " -n links --witharchive {q} || true)",
+            "ctrl-s:reload(" + search + " -n headings --witharchive {q} || true)",
             # Note that ctrl-x aborts so that a subsequence ctrl-x in fish shell
             # opens cheats. Similarly for ctrl-w opening todos.
             "ctrl-w:abort",
@@ -164,19 +168,33 @@ class Fzf:
         if len(self.binds) > 0:
             cmd += ["--bind", ",".join(self.binds)]
         if self.dry:
-            print(cmd)
-        process = subprocess.run(
+            print(f"FZF command : {cmd}")
+            print(f"Default command : {self.defaultCommand}")
+
+        searchProcess = subprocess.Popen(
+            self.searchCommand,
+            stdout=subprocess.PIPE,
+            text=True,
+            cwd=self.environment.directory,
+        ).stdout
+        process = subprocess.Popen(
             cmd,
             stdout=PIPE,
             text=True,
+            stdin=searchProcess,
             stderr=None,
             env={**os.environ, "FZF_DEFAULT_COMMAND": self.defaultCommand},
             cwd=self.environment.directory,
         )
+        output, error = process.communicate()
+        if error:
+            print(error)
+
         if self.dry:
-            print(process.stdout)
+            print(f"FZF Output : {output}")
             return
-        lines = process.stdout.splitlines()
+
+        lines = output.splitlines()
         if self.filter:
             print(lines)
             return False
@@ -228,10 +246,13 @@ def search(environment: Environment, args):
         searchPrefix = f"things-search {thingsSearchArgs}-n {args.name}"
     else:
         searchPrefix = f"things-search {thingsSearchArgs}-n headings"
+    fzf.searchCommand = searchPrefix.split(" ")
     if args.thing and len(args.thing) > 0:
         pattern = " ".join(args.thing)
-        fzf.defaultCommand = f"{searchPrefix} '{pattern}' || true"
+        fzf.defaultCommand = f"{searchPrefix} '{pattern}'"
+        fzf.searchCommand += [pattern]
     else:
-        fzf.defaultCommand = f"{searchPrefix} || true"
+        fzf.defaultCommand = f"{searchPrefix}"
 
+    fzf.defaultCommand += " || true"
     return fzf.run()

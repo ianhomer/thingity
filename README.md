@@ -25,7 +25,7 @@ See todos with
 
 ## Configuration
 
-Edit ``~/.config/thingity/thingity.ini` to configure thingity. For example:
+Edit `~/.config/thingity/thingity.ini` to configure thingity. For example:
 
 ```ini
 [DEFAULT]
@@ -35,7 +35,7 @@ THINGS_DIR = /Users/me/projects/things
 ```
 
 - MY_NOTES: Name of your primary repository relative to the things directory
-- MY_DO: Todo defualt configuration (see below)
+- MY_DO: Todo default configuration (see below)
 - THINGS_DIR: Location of your things repositories
 
 Todo default configuration is context filter that filters out specific todo
@@ -51,6 +51,10 @@ default. Note that you can show all todos, even excluded contexts, with `todo -a
 ## test
 
     ptw
+
+Or watch with a specific task
+
+    ptw -- -k task
 
 ## Exploratative tests
 

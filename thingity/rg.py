@@ -7,6 +7,7 @@ class Rg(Search):
         self, environment: Environment, match=None, justArchive=False, withArchive=False
     ):
         super(Rg, self).__init__(environment)
+        self.environment = environment
         self.match = match
         self.globParts = self.createGlobParts(justArchive, withArchive)
         self.withPcre2 = False
@@ -36,4 +37,5 @@ class Rg(Search):
         if self.maxPerFile > 0:
             parts.extend(["-m", str(self.maxPerFile)])
         parts.append(self.matchPrefix + (self.match or ""))
+        parts.append(self.environment.directory)
         return parts

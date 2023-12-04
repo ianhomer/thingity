@@ -1,5 +1,6 @@
 #!/usr/bin/env bats
 
+
 load test_helper
 
 @test "things : should use local directory" {
@@ -8,7 +9,7 @@ load test_helper
 }
 
 @test "things : should find things" {
-  run things --test "test thing 2"
+  run things --noconfig --test "test thing 2"
   assert_output --partial 'Test Thing 2'
 }
 

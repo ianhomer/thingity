@@ -3,7 +3,7 @@
 load test_helper
 
 @test "todo : should find todo" {
-  run todo --test bananas
+  run todo --noconfig --test bananas
   assert_output --partial 'test-todo.md'
 }
 
