@@ -142,6 +142,7 @@ class Fzf:
                 ]
         self.parts = []
         self.defaultCommand = "true"
+        self.searchCommand = []
         self.filenameMatcher = "^[^:]*:([^:]*)"
         search = (
             "things-search " + thingsSearchArgs if thingsSearchArgs else "things-search"
@@ -170,26 +171,29 @@ class Fzf:
             print(f"FZF command : {cmd}")
             print(f"Default command : {self.defaultCommand}")
 
-        # searchProcess = subprocess.Popen(
-        #     self.defaultCommand.split(" "),
-        #     stdout=subprocess.PIPE,
-        #     text=True,
-        #     cwd=self.environment.directory,
-        # )
-        process = subprocess.run(
+        searchProcess = subprocess.Popen(
+            self.searchCommand,
+            stdout=subprocess.PIPE,
+            text=True,
+            cwd=self.environment.directory,
+        )
+        process = subprocess.Popen(
             cmd,
             stdout=PIPE,
             text=True,
-            # stdin=searchProcess.stdout,
-            # stderr=subprocess.STDOUT,
+            stdin=searchProcess.stdout,
             stderr=None,
             env={**os.environ, "FZF_DEFAULT_COMMAND": self.defaultCommand},
             cwd=self.environment.directory,
         )
+        output, error = process.communicate()
         if self.dry:
-            print(f"FZF Output : {process.stdout}")
+            print(f"FZF Output : {output}")
             return
-        lines = process.stdout.splitlines()
+        if error:
+            print(error)
+
+        lines = output.splitlines()
         if self.filter:
             print(lines)
             return False
@@ -241,10 +245,13 @@ def search(environment: Environment, args):
         searchPrefix = f"things-search {thingsSearchArgs}-n {args.name}"
     else:
         searchPrefix = f"things-search {thingsSearchArgs}-n headings"
+    fzf.searchCommand = searchPrefix.split(" ")
     if args.thing and len(args.thing) > 0:
         pattern = " ".join(args.thing)
-        fzf.defaultCommand = f"{searchPrefix} '{pattern}' || true"
+        fzf.defaultCommand = f"{searchPrefix} '{pattern}'"
+        fzf.searchCommand += [pattern]
     else:
-        fzf.defaultCommand = f"{searchPrefix} || true"
+        fzf.defaultCommand = f"{searchPrefix}"
 
+    fzf.defaultCommand += " || true"
     return fzf.run()
