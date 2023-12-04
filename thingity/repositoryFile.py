@@ -31,7 +31,7 @@ def gitRoot(directory, cmd):
 
 class RepositoryFile:
     def __init__(self, base: str, path="", cmd=["git", "rev-parse", "--show-toplevel"]):
-        fullPath = base + "/" + path
+        fullPath = base + "/" + path.removeprefix("./")
         directory = os.path.dirname(fullPath)
 
         self._root = upFind(directory)
