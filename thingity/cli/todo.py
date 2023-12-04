@@ -174,7 +174,8 @@ def search(environment: Environment, args):
         ["--noheading", "--nonumbers", "--nocolor", "--nobreak", "--follow"]
     )
     result = subprocess.run(
-        agParts, stdout=PIPE, text=True, errors="replace", encoding=args.encoding
+        agParts, stdout=PIPE, text=True, errors="replace", encoding=args.encoding,
+        cwd=environment.directory
     )
 
     lines = result.stdout.splitlines()
