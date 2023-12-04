@@ -276,6 +276,8 @@ def search(environment: Environment, args):
     stdout = fzf.stdout
     if stdout:
         output = stdout.read().decode(encoding)
+        if args.test:
+            print(output)
         match = re.search("^([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)$", output)
         file = None
         if match:
