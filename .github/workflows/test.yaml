@@ -76,6 +76,8 @@ jobs:
           echo "ag bananas with path"
           ag bananas .
           ag --noheading --nonumbers --nobreak bananas .
+          echo "ag with filename"
+          ag --noheading --nonumbers --nobreak --filename bananas .
           echo "todo with filter"
           todo --noconfig --test bananas
         working-directory: test
