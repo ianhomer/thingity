@@ -72,6 +72,7 @@ jobs:
           rg -i --glob '!archive/' --glob '**/*.md' --no-heading --follow --color never -n -m 1 '' .
           echo "things with filter"
           things --noconfig --test "test thing 2"
+          ag --version
           echo "ag bananas with path"
           ag bananas .
           ag --noheading --nonumbers --nobreak bananas .
