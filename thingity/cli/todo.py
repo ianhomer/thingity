@@ -170,7 +170,8 @@ def search(environment: Environment, args):
 
     ag = Ag(environment, args.justarchive, args.witharchive or args.all)
     agParts = ag.parts(
-        pattern, ["--noheading", "--nonumbers", "--nocolor", "--nobreak", "--follow"]
+        pattern,
+        ["--noheading", "--nonumbers", "--nocolor", "--nobreak", "--follow"]
     )
     result = subprocess.run(
         agParts, stdout=PIPE, text=True, errors="replace", encoding=args.encoding

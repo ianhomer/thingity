@@ -61,7 +61,6 @@ jobs:
           echo "things-search --noconfig"
           things-search --noconfig
           echo "Direct rg"
-          rg || echo "rg help"
           rg --version
           ls
           ls -R things
@@ -73,6 +72,8 @@ jobs:
           rg -i --glob '!archive/' --glob '**/*.md' --no-heading --follow --color never -n -m 1 '' .
           echo "things with filter"
           things --noconfig --test "test thing 2"
+          echo "todo with filter"
+          todo --noconfig --test bananas
         working-directory: test
       - name: pnpm install
         working-directory: test
