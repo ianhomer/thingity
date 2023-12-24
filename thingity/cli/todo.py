@@ -88,11 +88,6 @@ be enabled
 
     args = parser.parse_args()
 
-    # By default show all todos and include all contexts
-    if len(sys.argv) == 1:
-        args.all = True
-        args.include = True
-
     if args.test:
         args.filter = args.test
         args.noconfig = True
@@ -103,7 +98,7 @@ be enabled
     if (not args.filter) and thingity.synk(False):
         return
 
-    if args.do and len(args.do) > 1:
+    if len(args.do) > 1:
         words = []
 
         # Scan words
