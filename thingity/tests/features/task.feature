@@ -181,6 +181,13 @@ Feature: Task
         Then the task subject is something
         And the task context is XYZ
 
+    Scenario: Task with no context render context as dashes
+        Given I am in the file my.md
+        And I have the task something
+        Then the task subject is something
+        And the task context is None
+        And the task row is 4000 --- something ‣None my.md
+
     Scenario: Task with lower case context
         Given default context is XYZ
         And I have the task abc something
@@ -199,4 +206,3 @@ Feature: Task
         And I have the task MEM 20210617 1930 Something
         Then the task display is THU 19:30 Something
         Then the task row is 1000202106171930 MEM THU 19:30 Something ‣None my.md
-
