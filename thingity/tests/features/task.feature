@@ -182,8 +182,9 @@ Feature: Task
         And the task context is XYZ
 
     Scenario: Task with lower case context
-        Given I have the task abc something
-        Then the task context is ABC
+        Given default context is XYZ
+        And I have the task abc something
+        Then the task context is XYZ
 
     Scenario: Task with await
         Given I have the task ABC {BOB} something

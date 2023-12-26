@@ -68,7 +68,7 @@ class Task:
             # Optional markdown part
             "(?:- \\[ \\] )?" +
             # Context part
-            "((?:[a-zA-Z]{3}(?=\\s))?)\\s*" +
+            "((?:[A-Z]{3}(?=\\s))?)\\s*" +
             # Date part
             "((?:(?:[0-9]+"
             + (
