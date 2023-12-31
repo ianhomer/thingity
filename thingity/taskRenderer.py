@@ -44,7 +44,7 @@ class TaskRenderer:
         modifier = self.modifier(task)
         parts += [
             f"{task.rank}{self.separator}",
-            f"{self.palette.color('context', modifier)}{task.context}{self.clear}",
+            f"{self.palette.color('context', modifier)}{task.context or '---'}{self.clear}",
             self.separator,
             self.renderBody(task),
             f"{self.separator}",
