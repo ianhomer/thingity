@@ -21,6 +21,14 @@ Feature: Things
     And the thing normalFilename is my-collection/stream/0607.md
     And the thing is normal
 
+  Scenario: Date with dashes stream thing like obsidian default
+    Given today is 20210609
+    When I have the thing my-collection/stream/2021-06-07.md
+    Then the thing base is 2021-06-07
+    And the thing path is stream
+    And the thing normalFilename is my-collection/stream/0607.md
+    And the thing isn't normal
+
   Scenario: Date stream with year from archive path
     Given today is 20210709
     When I have the thing my-collection/stream/archive/2019/0425.md

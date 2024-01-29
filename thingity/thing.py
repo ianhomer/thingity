@@ -35,7 +35,7 @@ class Thing:
         date = None
         postfix = ""
         if self.path and self.path.startswith("stream"):
-            match = re.search("^[0-9]*([0-9]{2})([0-9]{2})(-.*)?$", self.base)
+            match = re.search("^[0-9]*-?([0-9]{2})-?([0-9]{2})(-.*)?$", self.base)
             if match:
                 postfix = match.group(3) if match.group(3) else ""
                 date = today.replace(
@@ -60,6 +60,8 @@ class Thing:
             if today - timedelta(days=40) > date:
                 self.normalPath = "stream/archive/" + str(date.year)
                 self.normalBase = date.strftime("%Y%m%d") + postfix
+            else:
+                self.normalBase = date.strftime("%m%d") + postfix
 
     def normalise(self, fix=False):
         mode = "+" if fix else "-"
