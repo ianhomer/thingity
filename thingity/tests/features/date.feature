@@ -43,3 +43,9 @@ Feature: Human Date
     Given today is 20210708
     When I have the date JUL 08
     Then the date code is 20210708
+
+  Scenario: Invalid day of month
+    Given today is 20210708
+    When I have the date 20220132
+    Then the date code is 00000000
+    And the date display is ---

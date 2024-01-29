@@ -17,9 +17,16 @@ class HumanDate:
         if input is None:
             self.date = today
             self.daysAhead = 0
+            self.valid = True
         else:
             self.input = input.strip()
-            self._parse()
+            try:
+                self._parse()
+                self.valid = True
+            except ValueError as error:
+                self.valid = False
+                self.display = "---"
+                print(f"Date {input} is not valid : {error}")
 
     def _parse(self):
         if self.input == "TOD":
@@ -83,7 +90,11 @@ class HumanDate:
 
     @property
     def code(self):
-        return self.date.strftime("%Y%m%d" if self.withDays else "%Y%m")
+        return (
+            self.date.strftime("%Y%m%d" if self.withDays else "%Y%m")
+            if self.valid
+            else "00000000"
+        )
 
     def __str__(self):
         return self.display
