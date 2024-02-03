@@ -164,6 +164,14 @@ Feature: Task
     Then the task subject is something
     And the task date is JUL
 
+  Scenario: Task with named month
+    Given today is 20210609
+    And natural mode
+    And I have the task JUL something
+    Then the task subject is something
+    And the task context is MEM
+    And the task date is JUL
+
   Scenario: Task with no context
     Given I have the task something
     Then the task subject is something
