@@ -29,6 +29,7 @@ def synk(force, justMyNotes=False, inLine=False):
                     "--location",
                     "hsplit",
                     "--dont-take-focus",
+                    "--no-response",
                     "fish",
                     "-c",
                     "things --synk -m",
