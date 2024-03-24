@@ -76,7 +76,7 @@ class HumanDate:
         return self.today + datetime.timedelta(days=day - 1)
 
     def _isDay(self, part):
-        return part in ["MON", "TUE", "WED", "THU|", "FRI", "SAT", "SUN"]
+        return part in ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
 
     # Parse a day of the week like MON or TUE to a date based on what today is
     def _parseDay(self, day):
