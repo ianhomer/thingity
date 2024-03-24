@@ -3,6 +3,7 @@ from pytest_bdd import scenarios, given, then, parsers
 from .. import Task
 
 scenarios("features/task.feature")
+scenarios("features/humanDates.feature")
 
 
 @pytest.fixture
