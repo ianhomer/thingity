@@ -165,13 +165,16 @@ def search(environment: Environment, args):
 
     ag = Ag(environment, args.justarchive, args.witharchive or args.all)
     agParts = ag.parts(
-        pattern,
-        ["--noheading", "--nonumbers", "--nocolor", "--nobreak", "--follow"]
+        pattern, ["--noheading", "--nonumbers", "--nocolor", "--nobreak", "--follow"]
     )
     result = subprocess.run(
-        agParts, stdout=PIPE, text=True, errors="replace", encoding=args.encoding,
+        agParts,
+        stdout=PIPE,
+        text=True,
+        errors="replace",
+        encoding=args.encoding,
         stdin=subprocess.DEVNULL,
-        cwd=environment.directory
+        cwd=environment.directory,
     )
 
     lines = result.stdout.splitlines()
@@ -316,19 +319,29 @@ def add(environment, repository, do):
         file.seek(0)
         lines = file.readlines()
         length = len(lines)
+        insert_index = 2
         if length == 0:
             # Add date heading
             todayLong = now.strftime("%a %d %b %Y").upper()
             lines.append(f"# {todayLong}\n\n")
         elif length == 1:
-            # Guard to make sure todos don't crash heading of manually created
-            # file
+            pass
+        else:
+            # We'll insert the todo after the first header
+            for i, item in enumerate(lines):
+                if item.startswith("# "):
+                    insert_index = i + 2
+                    break
+
+        # Guard to make sure todos don't crash heading of manually created
+        # file
+        if length < insert_index:
             lines.append("\n")
 
         # Space between dos and next paragraph
-        if len(lines) > 2 and not lines[2].startswith("-"):
-            lines.insert(2, "\n")
+        if len(lines) > insert_index and not lines[insert_index].startswith("-"):
+            lines.insert(insert_index, "\n")
 
-        lines.insert(2, f"- [ ] {task}\n")
+        lines.insert(insert_index, f"- [ ] {task}\n")
         file.seek(0)
         file.writelines(lines)
