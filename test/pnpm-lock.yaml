@@ -1,39 +1,47 @@
-lockfileVersion: '6.0'
+lockfileVersion: '9.0'
 
 settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-devDependencies:
-  bats:
-    specifier: 1.10.0
-    version: 1.10.0
-  bats-assert:
-    specifier: 2.0.0
-    version: 2.0.0(bats-support@0.3.0)
-  bats-support:
-    specifier: 0.3.0
-    version: 0.3.0(bats@1.10.0)
+importers:
+
+  .:
+    devDependencies:
+      bats:
+        specifier: 1.10.0
+        version: 1.10.0
+      bats-assert:
+        specifier: 2.0.0
+        version: 2.0.0(bats-support@0.3.0)
+      bats-support:
+        specifier: 0.3.0
+        version: 0.3.0(bats@1.10.0)
 
 packages:
 
-  /bats-assert@2.0.0(bats-support@0.3.0):
+  bats-assert@2.0.0:
     resolution: {integrity: sha512-qO3kNilWxW8iCONu9NDUfvsCiC6JzL6DPOc/DGq9z3bZ9/A7wURJ+FnFMxGbofOmWbCoy7pVhofn0o47A95qkQ==}
     peerDependencies:
       bats-support: git+https://github.com/ztombol/bats-support.git#v0.2.0
-    dependencies:
-      bats-support: 0.3.0(bats@1.10.0)
-    dev: true
 
-  /bats-support@0.3.0(bats@1.10.0):
+  bats-support@0.3.0:
     resolution: {integrity: sha512-z+2WzXbI4OZgLnynydqH8GpI3+DcOtepO66PlK47SfEzTkiuV9hxn9eIQX+uLVFbt2Oqoc7Ky3TJ/N83lqD+cg==}
     peerDependencies:
       bats: 0.4 || ^1
-    dependencies:
-      bats: 1.10.0
-    dev: true
 
-  /bats@1.10.0:
+  bats@1.10.0:
     resolution: {integrity: sha512-yOQrC7npuCrN+Ic3TyjTjJlzHa0qlK3oEO6VAYPWwFeutx/GmpljIyB6uNSl/UTASyc2w4FgVuA/QMMf9OdsCw==}
     hasBin: true
-    dev: true
+
+snapshots:
+
+  bats-assert@2.0.0(bats-support@0.3.0):
+    dependencies:
+      bats-support: 0.3.0(bats@1.10.0)
+
+  bats-support@0.3.0(bats@1.10.0):
+    dependencies:
+      bats: 1.10.0
+
+  bats@1.10.0: {}
