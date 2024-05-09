@@ -34,6 +34,7 @@ class Palette:
                 "normal": NORMAL,
                 "question": BLUE,
                 "repository": DARK_GREY,
+                "thing": GREY,
                 "separator": "\t",
                 "time": CYAN,
             }

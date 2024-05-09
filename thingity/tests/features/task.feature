@@ -14,10 +14,11 @@ Feature: Task
     Given I am in the file things/foo/bar/my.md
     And I have the task - [ ] ABC something
     Then the task file is things/foo/bar/my.md
+    And the task thing is my
     And the task repository is foo
     And the task context is ABC
     And the task subject is something
-    And the task row is 4000 ABC something ‣foo things/foo/bar/my.md
+    And the task row is 4000 ABC something ‣foo my things/foo/bar/my.md
 
   Scenario: Next task
     Given I am in the file my.md
@@ -194,7 +195,7 @@ Feature: Task
     And I have the task something
     Then the task subject is something
     And the task context is None
-    And the task row is 4000 --- something ‣None my.md
+    And the task row is 4000 --- something ‣None my my.md
 
   Scenario: Task with lower case context
     Given default context is XYZ
@@ -213,4 +214,4 @@ Feature: Task
     And I am in the file my.md
     And I have the task MEM 20210617 1930 Something
     Then the task display is THU 19:30 Something
-    Then the task row is 1000202106171930 MEM THU 19:30 Something ‣None my.md
+    Then the task row is 1000202106171930 MEM THU 19:30 Something ‣None my my.md
