@@ -36,6 +36,12 @@ def repositoryFromFile(file):
         return match.group(1)
 
 
+def thingFromFile(file):
+    match = re.search("([^/]+).md", file)
+    if match:
+        return match.group(1)
+
+
 #
 # When natural is true then line interpretted as entered by human.
 #
@@ -107,6 +113,7 @@ class Task:
         if match:
             self.file = match.group(1)
             self.repository = repositoryFromFile(self.file)
+            self.thing = thingFromFile(self.file)
             self.context = match.group(2).upper() or self.defaultContext
             self.dateIn = match.group(3) or None
             if self.dateIn is None:
@@ -227,15 +234,15 @@ class Task:
             else (
                 9000
                 if self.mission
-                else 8000
-                if self.garage
-                else 7000
-                if self.backlog
-                else 5000
-                if self.question
-                else 4000
-                if not self.next
-                else 2000
+                else (
+                    8000
+                    if self.garage
+                    else (
+                        7000
+                        if self.backlog
+                        else 5000 if self.question else 4000 if not self.next else 2000
+                    )
+                )
             )
         )
 

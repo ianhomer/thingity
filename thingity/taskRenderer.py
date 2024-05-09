@@ -1,6 +1,5 @@
 from . import Palette
 
-
 class TaskRenderer:
     def __init__(self, theme=None):
         self.palette = Palette(theme=theme)
@@ -21,7 +20,7 @@ class TaskRenderer:
             ]
         if task.timeInclude:
             parts += [
-                self.palette.color('time', modifier)
+                self.palette.color("time", modifier)
                 + f"{task.time.display} {self.clear}"
             ]
         if task.end:
@@ -49,6 +48,7 @@ class TaskRenderer:
             self.renderBody(task),
             f"{self.separator}",
             f"{self.palette.color('repository')}‣{task.repository}{self.clear}",
-            f"{self.separator}{task.file}"
+            f"{self.separator}{self.palette.color('thing')}{task.thing}{self.clear}"
+            f"{self.separator}{task.file}",
         ]
         return "".join(parts)

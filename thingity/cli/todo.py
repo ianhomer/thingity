@@ -83,7 +83,7 @@ be enabled
     parser.add_argument("--witharchive", action="store_true")
     parser.add_argument("--justgarage", action="store_true")
     parser.add_argument("--withgarage", action="store_true")
-    parser.add_argument("--hiderepository", action="store_true")
+    parser.add_argument("-s", "--hiderepository", action="store_true")
     parser.add_argument("-r", "--repository")
 
     args = parser.parse_args()
@@ -236,7 +236,9 @@ def search(environment: Environment, args):
         "-d",
         "\t",
         "--with-nth",
-        ("2,3,4" if not args.hiderepository else "2,3"),
+        ("2,3,4,5" if not args.hiderepository else "2,3"),
+        "--scroll-off",
+        "5",
         "--tabstop",
         "4",
         "--layout",
@@ -277,10 +279,12 @@ def search(environment: Environment, args):
         output = stdout.read().decode(encoding)
         if args.test:
             print(output)
-        match = re.search("^([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)$", output)
+        match = re.search(
+            "^([^\t]*)\t([^\t]*)\t([^\t]*)\t([^\t]*)\t(.*)\t(.*)$", output
+        )
         file = None
         if match:
-            file = match.group(5)
+            file = match.group(6)
         else:
             match = re.search("\\(today\\)\t(.*)$", output)
             if match:
