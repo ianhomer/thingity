@@ -2,6 +2,7 @@ import glob
 import os
 import subprocess
 import time
+import re
 from . import Environment, runner, Signal, Thing
 
 environment = Environment()
@@ -42,7 +43,11 @@ def synk(force, justMyNotes=False, inLine=False):
 
 def lint(fix=False):
     signals = []
-    for filename in glob.iglob(f"{environment.directory}/**/*.md", recursive=True):
+    for filename in glob.iglob(
+        f"{environment.directory}/**/*.md", recursive=True
+    ):
+        if re.match(r".*/(node_modules)/.*", filename):
+            continue
         try:
             thing = Thing(filename, root=environment.directory)
             if not thing.normal:
