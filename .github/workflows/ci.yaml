@@ -19,7 +19,7 @@ jobs:
       - name: Run pre-commit on all files
         run: pre-commit run --all-files
         env:
-          SKIP: check-untracked
+          SKIP: check-untracked-files
 
   test-unit:
     runs-on: ubuntu-latest
