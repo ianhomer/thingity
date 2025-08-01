@@ -2,26 +2,36 @@
 
 Terminal based thing and to do management.
 
-## tl;dr
+## Getting started
 
-    brew install fzf ripgrep the_silver_searcher bat
-    pipx install -e .
+```sh
+brew install fzf ripgrep the_silver_searcher bat
+pipx install -e .
+```
 
 Create a thing with
 
-    thing
+```sh
+thing
+```
 
 Search things with
 
-    things
+```sh
+things
+```
 
 Create a todo with
 
-    todo a task
+```sh
+todo a task
+```
 
 See todos with
 
-    todo
+```sh
+todo
+```
 
 ## Configuration
 
@@ -48,16 +58,39 @@ For example `-A,-B:B>C,D:E>F,G` would not show todos for "A" and "B" by
 default. Furthermore B implies C and D, so C and D would also be excluded by
 default. Note that you can show all todos, even excluded contexts, with `todo -a`.
 
-## test
+## Development
 
-    ptw
+Set up pre-commit checks
+
+```sh
+pip install pre-commit
+pre-commit install
+```
+
+### Test
+
+```sh
+ptw
+```
 
 Or watch with a specific task
 
-    ptw -- -k task
+```sh
+ptw -- -k task
+```
 
-## Exploratative tests
+### Exploratative tests
 
 Start up thingity in a container
 
-    ./isolation-test.sh
+```sh
+./isolation-test.sh
+```
+
+### Linting
+
+Linting should take place before each commit, however it can be run on all files with
+
+```sh
+pre-commit run --all-files
+```

@@ -6,4 +6,3 @@ load test_helper
   run todo --noconfig --test bananas
   assert_output --partial 'test-todo.md'
 }
-

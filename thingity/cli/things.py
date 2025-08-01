@@ -5,7 +5,6 @@ import os
 import subprocess
 import re
 import shutil
-from sys import stdin
 from typing import Optional
 from subprocess import PIPE
 from .. import Environment, RepositoryFile, thingity
@@ -29,7 +28,7 @@ def run():
     parser.add_argument("--test", help="test mode")
     parser.add_argument("--noedit", help="don't edit file", action="store_true")
 
-    parser.add_argument("--info", action="store_true")
+    parser.add_argument("--info", action="store_true", help="Show local configuration")
     parser.add_argument("--dry", action="store_true")
     parser.add_argument("--justarchive", action="store_true")
     parser.add_argument("--witharchive", action="store_true")
