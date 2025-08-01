@@ -1,0 +1,111 @@
+name: CI
+
+on: [push, workflow_dispatch]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - name: Install pre-commit
+        run: pip install pre-commit
+
+      - name: Run pre-commit on all files
+        run: pre-commit run --all-files
+        env:
+          SKIP: check-untracked
+
+  test-unit:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.10"]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: install python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 pytest pytest-bdd
+      - name: install requirements
+        run: pip install -r requirements.txt
+      - name: lint with flake8
+        run: |
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      - name: python tests
+        run: |
+          pytest
+
+  test-e2e:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        python-version: ["3.10"]
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: install python dependencies
+        run: |
+          python -m pip install --upgrade pip
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8.11.0
+      - name: install thingity
+        run: pip install -e .
+      - name: install dependencies
+        run: sudo apt-get install -y fzf silversearcher-ag ripgrep
+      - name: run cli
+        run: |
+          things-search --noconfig --dry -n headings
+          echo "things-search --noconfig -n headings"
+          things-search --noconfig -n headings
+          echo "things-search --noconfig --dry"
+          things-search --noconfig --dry
+          echo "things-search --noconfig"
+          things-search --noconfig
+          echo "Direct rg"
+          rg --version
+          ls
+          ls -R things
+          echo "rg basic"
+          rg --debug thing .
+          echo "rg with glob"
+          rg --glob '**/*.md' '' .
+          echo "Direct rg full 2"
+          rg -i --glob '!archive/' --glob '**/*.md' --no-heading --follow --color never -n -m 1 '' .
+          echo "things with filter"
+          things --noconfig --test "test thing 2"
+          ag --version
+          echo "ag bananas with path"
+          ag bananas .
+          ag --noheading --nonumbers --nobreak bananas . </dev/null
+          echo "ag with pipe in of dev/null https://github.com/ggreer/the_silver_searcher/issues/943"
+          ag --noheading --nonumbers --nobreak bananas . </dev/null
+          echo "ag with filename"
+          ag --noheading --nonumbers --nobreak --filename bananas .
+          echo "todo with filter"
+          todo --noconfig --test bananas
+        working-directory: test
+      - name: pnpm install
+        working-directory: test
+        run: pnpm i
+      - name: test
+        working-directory: test
+        run: pnpm test
