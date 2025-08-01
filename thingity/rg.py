@@ -39,3 +39,38 @@ class Rg(Search):
         parts.append(self.matchPrefix + (self.match or ""))
         parts.append(".")
         return parts
+
+    def parts(self, pattern, options):
+        """
+        Provide ag.py compatible interface for backward compatibility.
+        Maps ag options to equivalent rg options.
+        """
+        # Map ag options to rg equivalents
+        rg_options = []
+        for option in options:
+            if option == "--noheading":
+                rg_options.append("--no-heading")
+            elif option == "--nonumbers":
+                pass  # rg doesn't show numbers by default in this mode
+            elif option == "--nocolor":
+                rg_options.extend(["--color", "never"])
+            elif option == "--nobreak":
+                pass  # rg doesn't add breaks by default
+            elif option == "--follow":
+                rg_options.append("--follow")
+            else:
+                # Pass through other options as-is
+                rg_options.append(option)
+
+        # Check if pattern contains regex features that require PCRE2
+        if self._needs_pcre2(pattern):
+            rg_options.append("--pcre2")
+
+        return ["rg", "-i"] + self.globParts + rg_options + [pattern, self.environment.directory]
+
+    def _needs_pcre2(self, pattern):
+        """
+        Check if pattern contains regex features that require PCRE2 support.
+        """
+        # Check for lookaround patterns that require PCRE2
+        return any(lookaround in pattern for lookaround in ['(?!', '(?=', '(?<', '(?<='])

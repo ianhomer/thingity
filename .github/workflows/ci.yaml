@@ -88,14 +88,8 @@ jobs:
           rg -i --glob '!archive/' --glob '**/*.md' --no-heading --follow --color never -n -m 1 '' .
           echo "things with filter"
           things --noconfig --test "test thing 2"
-          ag --version
-          echo "ag bananas with path"
-          ag bananas .
-          ag --noheading --nonumbers --nobreak bananas . </dev/null
-          echo "ag with pipe in of dev/null https://github.com/ggreer/the_silver_searcher/issues/943"
-          ag --noheading --nonumbers --nobreak bananas . </dev/null
-          echo "ag with filename"
-          ag --noheading --nonumbers --nobreak --filename bananas .
+          echo "rg bananas with ripgrep backend"
+          rg --no-heading --follow --color never bananas .
           echo "todo with filter"
           todo --noconfig --test bananas
         working-directory: test

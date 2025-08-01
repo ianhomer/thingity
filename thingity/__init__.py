@@ -2,7 +2,6 @@
 from .palette import Palette
 from .taskRenderer import TaskRenderer
 from .environment import Environment
-from .ag import Ag
 from .contextFilter import ContextFilter
 from .factory import Factory
 from .repositoryFile import RepositoryFile

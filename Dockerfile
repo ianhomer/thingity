@@ -8,7 +8,6 @@ RUN pacman -Syu --noconfirm \
   python-pip          \
   sudo                \
   ripgrep             \
-  the_silver_searcher \
   fzf                 \
   bat                 \
   vim

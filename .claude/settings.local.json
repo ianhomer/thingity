@@ -3,7 +3,13 @@
   "permissions": {
     "allow": [
       "mcp__markdown-reader__find_markdown_files",
-      "mcp__markdown-reader__read_markdown_file"
+      "mcp__markdown-reader__read_markdown_file",
+      "Bash(rm:*)",
+      "Bash(python -m pytest --tb=short)",
+      "Bash(python:*)",
+      "Bash(ls:*)",
+      "Bash(./isolation-test.sh:*)",
+      "Bash(pre-commit run:*)"
     ],
     "deny": []
   }

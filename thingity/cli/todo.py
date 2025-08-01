@@ -11,7 +11,7 @@ import time
 from datetime import datetime
 from pathlib import Path
 from subprocess import PIPE
-from .. import Ag, ContextFilter, Environment, Factory, Task, thingity, TaskRenderer
+from .. import Rg, ContextFilter, Environment, Factory, Task, thingity, TaskRenderer
 
 PURPLE = "\033[95m"
 ORANGE = "\033[33m"
@@ -163,12 +163,12 @@ def search(environment: Environment, args):
         # By default ignore todos
         pattern = f"{todoPattern}(?! ([A-Z]{3} )?[\\.\\-])"
 
-    ag = Ag(environment, args.justarchive, args.witharchive or args.all)
-    agParts = ag.parts(
+    rg = Rg(environment, justArchive=args.justarchive, withArchive=args.witharchive or args.all)
+    rgParts = rg.parts(
         pattern, ["--noheading", "--nonumbers", "--nocolor", "--nobreak", "--follow"]
     )
     result = subprocess.run(
-        agParts,
+        rgParts,
         stdout=PIPE,
         text=True,
         errors="replace",
