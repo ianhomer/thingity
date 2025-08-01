@@ -11,4 +11,3 @@ load test_helper
   run things-search --noconfig -n test "test thing 2"
   assert_output './things/my-notes/test-thing-2.md:1:# Test Thing 2'
 }
-

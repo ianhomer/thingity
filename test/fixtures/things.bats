@@ -12,5 +12,3 @@ load test_helper
   run things --noconfig --test "test thing 2"
   assert_output --partial 'Test Thing 2'
 }
-
-
