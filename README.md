@@ -79,6 +79,24 @@ Or watch with a specific task
 ptw -- -k task
 ```
 
+### E2E tests
+
+Run end-to-end tests locally:
+
+```sh
+cd test
+npm test
+```
+
+Or run individual test suites:
+
+```sh
+cd test
+npx bats fixtures/todo.bats
+npx bats fixtures/things.bats
+npx bats fixtures/things-search.bats
+```
+
 ### Exploratative tests
 
 Start up thingity in a container
