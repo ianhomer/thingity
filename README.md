@@ -5,7 +5,7 @@ Terminal based thing and to do management.
 ## Getting started
 
 ```sh
-brew install fzf ripgrep the_silver_searcher bat
+brew install fzf ripgrep bat
 pipx install -e .
 ```
 

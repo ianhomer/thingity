@@ -15,7 +15,7 @@ thingity is a Python CLI tool that provides:
 ### Setup
 ```bash
 # Install dependencies
-brew install fzf ripgrep the_silver_searcher bat
+brew install fzf ripgrep bat
 pipx install -e .
 
 # Set up development environment
@@ -47,24 +47,24 @@ pre-commit run --all-files
 
 ## Product Roadmap
 
-### 1. Technical Goal - Search Backend Consolidation
+### 1. Technical Goal - Search Backend Consolidation ✅ **COMPLETED**
 **Priority: High | Effort: Medium**
 
-Consolidate the dual search backend approach (ag.py and rg.py) into a single ripgrep-based implementation.
+~~Consolidate the dual search backend approach (ag.py and rg.py) into a single ripgrep-based implementation.~~
 
-**Current Issue:** The system maintains two parallel search engines which creates maintenance overhead and complexity.
+**Issue Resolved:** The system previously maintained two parallel search engines which created maintenance overhead and complexity.
 
-**Benefits:**
-- Reduces code duplication and maintenance burden
+**Benefits Achieved:**
+- Reduced code duplication and maintenance burden
 - Ripgrep is more performant and actively maintained
-- Simplifies the search abstraction layer
-- Enables more consistent search behaviour across all commands
+- Simplified the search abstraction layer
+- Enabled more consistent search behaviour across all commands
 
-**Implementation Steps:**
-- Deprecate ag.py module
-- Enhance rg.py with any missing ag features
-- Update all search callsites to use unified interface
-- Remove ag dependencies from requirements
+**Implementation Completed:**
+- ✅ Deprecated ag.py module (removed)
+- ✅ Enhanced rg.py with backward-compatible ag interface
+- ✅ Updated all search callsites to use unified ripgrep interface
+- ✅ Removed ag dependencies from documentation and CI
 
 ### 2. User Experience - Enhanced Todo Context Management
 **Priority: High | Effort: Medium**
