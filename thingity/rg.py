@@ -62,4 +62,15 @@ class Rg(Search):
                 # Pass through other options as-is
                 rg_options.append(option)
 
+        # Check if pattern contains regex features that require PCRE2
+        if self._needs_pcre2(pattern):
+            rg_options.append("--pcre2")
+
         return ["rg", "-i"] + self.globParts + rg_options + [pattern, self.environment.directory]
+
+    def _needs_pcre2(self, pattern):
+        """
+        Check if pattern contains regex features that require PCRE2 support.
+        """
+        # Check for lookaround patterns that require PCRE2
+        return any(lookaround in pattern for lookaround in ['(?!', '(?=', '(?<', '(?<='])
