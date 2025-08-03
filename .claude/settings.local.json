@@ -9,7 +9,9 @@
       "Bash(python:*)",
       "Bash(ls:*)",
       "Bash(./isolation-test.sh:*)",
-      "Bash(pre-commit run:*)"
+      "Bash(pre-commit run:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)"
     ],
     "deny": []
   }
