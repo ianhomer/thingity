@@ -9,7 +9,18 @@
       "Bash(python:*)",
       "Bash(ls:*)",
       "Bash(./isolation-test.sh:*)",
-      "Bash(pre-commit run:*)"
+      "Bash(pre-commit run:*)",
+      "mcp__github__get_me",
+      "mcp__github__list_workflow_runs",
+      "mcp__github__list_workflows",
+      "mcp__github__get_job_logs",
+      "mcp__github__list_workflow_jobs",
+      "Bash(things-search:*)",
+      "Bash(todo:*)",
+      "Bash(pytest:*)",
+      "Bash(PYTHONPATH=. python -m pytest thingity/tests/ -v)",
+      "Bash(find:*)",
+      "Bash(PYTHONPATH=/Users/ian/projects/my/thingity python -c \"from thingity.cli.todo import context; from thingity import Environment; env = Environment(); context(env)\")"
     ],
     "deny": []
   }
