@@ -68,103 +68,200 @@ class Task:
         self._parse()
 
     def _parse(self):
-        match = re.search(
-            # File part
-            ("()" if self.natural else "^([^:]*):") +
-            # Optional markdown part
-            "(?:- \\[ \\] )?" +
-            # Context part
-            "((?:[A-Z]{3}(?=\\s))?)\\s*" +
-            # Date part
-            "((?:(?:[0-9]+"
-            + (
-                "|(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC|"
-                + "MON|TUE|WED|THU|FRI|SAT|SUN|TOD|TOM)(?:\\s[0-9]{1,2})?"
-                if self.natural
-                else ""
-            )
-            + ")(?=\\s)\\s)?)\\s*"
-            +
-            # Time part
-            "((?:[0-9]{2}:?[0-9]{2}(?=\\s)\\s)?)\\s*" +
-            # Subject part
-            "(.*)$",
-            # Pre-pepend MEM category if natural and starts with a non-category,
-            # e.g. day of week
-            (
-                "MEM "
-                if (
-                    self.natural
-                    and (
-                        (self.line[0:3] in NON_CATEGORIES)
-                        or re.search("^[0-9]{2}:?[0-9]{2}", self.line[0:5])
-                    )
-                )
-                else ""
-            )
-            + self.line,
-        )
+        """Parse the task line using semantic parsing steps."""
+        # Initialize all task properties
+        self._initialize_properties()
+
+        # Preprocess the line for natural mode
+        processed_line = self._preprocess_line()
+
+        # Parse each component in sequence
+        file_part, remaining = self._parse_file_part(processed_line)
+        remaining = self._parse_markdown_prefix(remaining)
+        context_part, remaining = self._parse_context_part(remaining)
+        date_part, remaining = self._parse_date_part(remaining)
+        time_part, remaining = self._parse_time_part(remaining)
+        subject_part = remaining.strip()
+
+        # Set parsed values
+        self._set_file_properties(file_part)
+        self._set_context(context_part)
+        self._set_date(date_part)
+        self._set_time(time_part)
+        self._set_subject_and_modifiers(subject_part)
+
+    def _initialize_properties(self):
+        """Initialize all task properties to default values."""
         self.mission = False
         self.garage = False
         self.backlog = False
         self.question = False
         self.next = False
         self.toDate = None
+        self.file = None
+        self.repository = None
+        self.thing = None
+        self.context = self.defaultContext
+        self.date = None
+        self.time = None
+        self.subject = self.line
+        self.dateIn = None
+        self.timeAsNumbers = None
+
+    def _preprocess_line(self):
+        """Preprocess line for natural mode, adding MEM prefix if needed."""
+        if not self.natural:
+            return self.line
+
+        # Check if line starts with non-category or time
+        starts_with_non_category = self.line[:3] in NON_CATEGORIES
+        starts_with_time = re.match(r"^[0-9]{2}:?[0-9]{2}", self.line)
+
+        if starts_with_non_category or starts_with_time:
+            return f"MEM {self.line}"
+        return self.line
+
+    def _parse_file_part(self, line):
+        """Parse the file part from the beginning of the line."""
+        if self.natural:
+            return None, line
+
+        match = re.match(r"^([^:]*?):", line)
         if match:
-            self.file = match.group(1)
-            self.repository = repositoryFromFile(self.file)
-            self.thing = thingFromFile(self.file)
-            self.context = match.group(2).upper() or self.defaultContext
-            self.dateIn = match.group(3) or None
-            if self.dateIn is None:
-                self.date = None
+            return match.group(1), line[match.end():]
+        return None, line
+
+    def _parse_markdown_prefix(self, line):
+        """Remove optional markdown checkbox prefix."""
+        match = re.match(r"^- \[ \] ", line)
+        if match:
+            return line[match.end():]
+        return line
+
+    def _parse_context_part(self, line):
+        """Parse the context (3-letter code) from the line."""
+        match = re.match(r"^([A-Z]{3})(?=\s)", line)
+        if match:
+            return match.group(1), line[match.end():].lstrip()
+        return None, line
+
+    def _parse_date_part(self, line):
+        """Parse date information from the line."""
+        # Check if this looks like a time first to avoid consuming part of time as date
+        time_lookahead = re.match(r"^[0-9]{2}:[0-9]{2}", line)
+        if time_lookahead:
+            return None, line
+
+        # Numeric dates (various formats) - but not single/double digits that could be times
+        match = re.match(r"^([0-9]{4,})", line)  # At least 4 digits for proper dates
+        if match:
+            return match.group(1), line[match.end():].lstrip()
+
+        # Also handle specific shorter date formats that are clearly dates
+        match = re.match(r"^([0-9]{1,2})(?=\s|$)", line)
+        if match and not re.match(r"^[0-9]{2}:[0-9]{2}", line):
+            # Only if not followed by colon (time pattern)
+            return match.group(1), line[match.end():].lstrip()
+
+        # Natural language dates (only in natural mode)
+        if self.natural:
+            date_patterns = [
+                r"^(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)(?:\s+([0-9]{1,2}))?",
+                r"^(MON|TUE|WED|THU|FRI|SAT|SUN)",
+                r"^(TOD|TOM)"
+            ]
+
+            for pattern in date_patterns:
+                match = re.match(pattern, line)
+                if match:
+                    date_str = match.group(0)
+                    return date_str, line[match.end():].lstrip()
+
+        return None, line
+
+    def _parse_time_part(self, line):
+        """Parse time information from the line."""
+        match = re.match(r"^([0-9]{2}:?[0-9]{2})(?=\s|$)", line)
+        if match:
+            return match.group(1), line[match.end():].lstrip()
+        return None, line
+
+    def _set_file_properties(self, file_part):
+        """Set file-related properties."""
+        if file_part:
+            self.file = file_part
+            self.repository = repositoryFromFile(file_part)
+            self.thing = thingFromFile(file_part)
+
+    def _set_context(self, context_part):
+        """Set the context property."""
+        if context_part:
+            # Validate context is exactly 3 uppercase letters
+            if len(context_part) == 3 and context_part.isalpha():
+                self.context = context_part.upper()
             else:
-                self.date = HumanDate(self.dateIn, today=self.today)
+                # Invalid context, keep default
+                pass
+        # Keep default context if no context parsed
+
+    def _set_date(self, date_part):
+        """Set date-related properties."""
+        if date_part:
+            try:
+                self.dateIn = date_part
+                self.date = HumanDate(date_part, today=self.today)
                 self.dateInclude = True
-            self.timeAsNumbers = match.group(4) or None
-            if self.timeAsNumbers is None:
-                self.time = None
-                self.timeInclude = False
-            else:
-                self.time = HumanTime(self.timeAsNumbers)
+            except Exception:
+                # Invalid date format, skip date setting
+                pass
+
+    def _set_time(self, time_part):
+        """Set time-related properties."""
+        if time_part:
+            try:
+                self.timeAsNumbers = time_part
+                self.time = HumanTime(time_part)
                 self.timeInclude = self.time.include
+                # If time is set but no date, default to today
                 if self.date is None:
                     self.date = HumanDate(today=self.today)
                     self.dateInclude = True
-            subject = match.group(5)
+            except Exception:
+                # Invalid time format, skip time setting
+                pass
 
-            first = subject[:1]
-            if first == "~":
-                self.mission = True
-                self.subject = subject[1:].strip()
-            elif first == "^":
-                self.next = True
-                self.subject = subject[1:].strip()
-            elif first == ".":
-                self.backlog = True
-                self.subject = subject[1:].strip()
-            elif first == "-":
-                self.garage = True
-                self.subject = subject[1:].strip()
-            else:
-                self.subject = subject
+    def _set_subject_and_modifiers(self, subject_part):
+        """Parse subject and set task type modifiers."""
+        if not subject_part:
+            self.subject = ""
+            return
 
-            last = subject[-1]
-            if last == "?":
-                self.question = True
+        # Check for task type prefixes
+        first_char = subject_part[:1]
+        if first_char == "~":
+            self.mission = True
+            subject_part = subject_part[1:].strip()
+        elif first_char == "^":
+            self.next = True
+            subject_part = subject_part[1:].strip()
+        elif first_char == ".":
+            self.backlog = True
+            subject_part = subject_part[1:].strip()
+        elif first_char == "-":
+            self.garage = True
+            subject_part = subject_part[1:].strip()
 
-            # Extra toDate part
-            match = re.search("to ([0-9]{8}) (.*)", subject)
-            if match:
-                self.end = HumanDate(match.group(1), today=self.today)
-                self.subject = match.group(2)
-        else:
-            self.file = None
-            self.context = self.defaultContext
-            self.date = None
-            self.time = None
-            self.subject = self.line
-            self.repository = None
+        # Check for question suffix
+        if subject_part.endswith("?"):
+            self.question = True
+
+        # Check for "to date" pattern
+        to_match = re.search(r"to ([0-9]{8}) (.*)", subject_part)
+        if to_match:
+            self.end = HumanDate(to_match.group(1), today=self.today)
+            subject_part = to_match.group(2)
+
+        self.subject = subject_part
 
     def __str__(self):
         return self.code
