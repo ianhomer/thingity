@@ -123,13 +123,13 @@ be enabled
 
 
 def context(environment: Environment):
-    ag = subprocess.Popen(
+    rg = subprocess.Popen(
         [
-            "ag",
-            "--nocolor",
-            "--nobreak",
-            "--nofilename",
+            "rg",
+            "--no-heading",
+            "--no-filename",
             "--follow",
+            "--color", "never",
             "\\- \\[ \\] [A-Z]{3}",
             environment.directory,
         ],
@@ -137,7 +137,7 @@ def context(environment: Environment):
     )
     sed = subprocess.Popen(
         ["sed", "s/- \\[ \\] \\([A-Z]\\{3\\}\\) .*/\\1/g"],
-        stdin=ag.stdout,
+        stdin=rg.stdout,
         stdout=PIPE,
     )
     result = subprocess.run(["sort", "-u"], stdin=sed.stdout, stdout=PIPE, text=True)

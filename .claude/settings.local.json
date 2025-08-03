@@ -2,16 +2,26 @@
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "permissions": {
     "allow": [
-      "mcp__markdown-reader__find_markdown_files",
-      "mcp__markdown-reader__read_markdown_file",
-      "Bash(rm:*)",
+      "Bash(./isolation-test.sh:*)",
+      "Bash(find:*)",
+      "Bash(grep:*)",
+      "Bash(ls:*)",
+      "Bash(pre-commit run:*)",
+      "Bash(pytest:*)",
       "Bash(python -m pytest --tb=short)",
       "Bash(python:*)",
-      "Bash(ls:*)",
-      "Bash(./isolation-test.sh:*)",
-      "Bash(pre-commit run:*)",
-      "Bash(find:*)",
-      "Bash(grep:*)"
+      "Bash(rm:*)",
+      "Bash(things-search:*)",
+      "Bash(todo:*)",
+      "mcp__github__get_job_logs",
+      "mcp__github__get_me",
+      "mcp__github__list_workflow_jobs",
+      "mcp__github__list_workflow_runs",
+      "mcp__github__list_workflows",
+      "mcp__markdown-reader__find_markdown_files",
+      "mcp__markdown-reader__read_markdown_file",
+      "Bash(rg:*)",
+      "Bash(things:*)"
     ],
     "deny": []
   }

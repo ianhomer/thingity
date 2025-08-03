@@ -8,6 +8,8 @@ class Thing:
     def __init__(
         self, filename: str, root: Optional[str] = None, today: date = date.today()
     ):
+        # root is the root of the thing repositories, all vaults must be under this
+        # single root.
         self.root = root
         self.filename = (
             filename
@@ -16,6 +18,7 @@ class Thing:
             if filename.startswith(self.root)
             else filename
         )
+        # thing must be within a collection, e.g. collection/**/name.md
         match = re.search("([^\\/]*)/(.*)/([^\\/]*).md", self.filename)
         if match:
             self.collection = match.group(1)
@@ -28,7 +31,14 @@ class Thing:
                 self.base = match.group(2)
                 self.path = None
             else:
-                raise Exception(f"Not thing {self.filename}")
+                if not os.path.exists(self.filename):
+                    raise Exception(f"File {self.filename} does not exist")
+                else:
+                    # Indication of a thing outside a collection, it needs
+                    # to be moved into a collection before proceeding.
+                    raise Exception(
+                        f"Thing {self.filename} is not like collection/**/name.md"
+                    )
 
         self.normalBase = self.base
         self.normalPath = self.path
