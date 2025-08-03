@@ -220,7 +220,7 @@ class Fzf:
 
 def recent(environment: Environment, args):
     fzf = Fzf(environment, filter=args.filter)
-    period = args.thing[0] if args.thing else "1week"
+    period = args.things[0] if args.things else "1week"
     fzf.defaultCommand = (
         f"fd --changed-within {period} md " + "--exec stat -f '%m:%N:1:%N' {} | sort -r"
     )
@@ -248,8 +248,8 @@ def search(environment: Environment, args):
     else:
         searchPrefix = f"things-search {thingsSearchArgs}-n headings"
     fzf.searchCommand = searchPrefix.split(" ")
-    if args.thing and len(args.thing) > 0:
-        pattern = " ".join(args.thing)
+    if args.things and len(args.things) > 0:
+        pattern = " ".join(args.things)
         fzf.defaultCommand = f"{searchPrefix} '{pattern}'"
         fzf.searchCommand += [pattern]
     else:
