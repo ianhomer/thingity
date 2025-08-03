@@ -41,11 +41,14 @@ def synk(force, justMyNotes=False, inLine=False):
     return force
 
 
-def lint(fix=False):
+def lint(fix=False, things=[]):
     signals = []
-    for filename in glob.iglob(
-        f"{environment.directory}/**/*.md", recursive=True
-    ):
+    if things:
+        filenames = [os.path.abspath(thing) for thing in things]
+    else:
+        filenames = glob.iglob(f"{environment.directory}/**/*.md", recursive=True)
+
+    for filename in filenames:
         if re.match(r".*/(node_modules)/.*", filename):
             continue
         try:
@@ -56,8 +59,4 @@ def lint(fix=False):
             signals += [Signal(exception=exception, context=filename)]
 
     for signal in signals:
-        print(f"{signal}")
-
-    # Show any todos in the archive, since these will be excluded
-    # from the default todo execution.
-    os.system("todo --justarchive --stream")
+        print(f"{signal.context} {signal.exception}")
