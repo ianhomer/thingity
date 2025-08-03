@@ -13,8 +13,10 @@ from .. import Environment, RepositoryFile, thingity
 def run():
     parser = argparse.ArgumentParser(description="things")
     parser.add_argument("things", nargs="*", help="thing")
-    parser.add_argument("--fix", action="store_true")
-    parser.add_argument("--lint", action="store_true")
+    parser.add_argument("--fix", action="store_true", help="fix file naming of things")
+    parser.add_argument(
+        "--lint", action="store_true", help="lint file naming of things"
+    )
     parser.add_argument("-m", "--my", help="just sync my things", action="store_true")
     parser.add_argument("-n", "--name", help="find things with named search")
     parser.add_argument("-o", "--open", help="open my things", action="store_true")
